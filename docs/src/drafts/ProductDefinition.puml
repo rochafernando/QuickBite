@@ -1,21 +1,17 @@
 @startuml Product Management
 
-class Produto {
-    +id: int
-    +nome: string
-    +descrição: string
-    +imagem: string
-    +vendavel: bool
-    +removivel: bool
-    +created_at: datetime
-    +updated_at: datetime
+class Product {
+    + id: int
+    + nome: string
+    + descrição: string
+    + pathImagem: string
+    + categoria : Categoria
+    + vendavel: bool
+    + removivel: bool
+    + created_at: datetime
+    + updated_at: datetime
 }
 
-enum Vendabilidade {
-    vendavel
-    NaoVendavel
-
-}
 
 class Ingrediente extends Produto {}
 
@@ -25,12 +21,20 @@ class ProdutoProduzido extends Produto {}
 
 class Lanche extends ProdutoProduzido {}
 
-class Receita {}
+class Categoria {
+    + id: int
+    + nome: string
+    + removivel: bool
+    + created_at: datetime
+    + updated_at: datetime
+
+}
+
 
 
 @enduml
 
-@startuml - Produtc Management - Relações de Objetos
+@startuml - Product Management - Relações de Objetos
 
 
 @enduml
