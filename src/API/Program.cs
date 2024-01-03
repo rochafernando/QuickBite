@@ -1,3 +1,4 @@
+using API.Configurations.Middlewares;
 using API.Configurations.Swagger;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
@@ -12,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddCommandHandler(typeof(ICommandHandler<,>));
 builder.Services.AddQueryHandler(typeof(IQueryHandler<,>));
+builder.Services.AddServices();
+builder.Services.AddRepositories(builder.Configuration);
 
 
 builder.Services.AddControllers();
@@ -57,6 +60,8 @@ if (app.Environment.IsDevelopment())
         }
     });
 }
+
+app.UseExceptionMiddleware();
 
 app.UseAuthorization();
 

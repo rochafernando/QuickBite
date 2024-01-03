@@ -2,7 +2,7 @@
 
 namespace Application.Commands
 {
-    public class Command : Request, ICommand
+    public class Command : ICommand
     {
     }
 }
