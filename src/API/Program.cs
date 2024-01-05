@@ -1,3 +1,4 @@
+using API.Configurations.Filters;
 using API.Configurations.Middlewares;
 using API.Configurations.Swagger;
 using Asp.Versioning;
@@ -17,14 +18,26 @@ builder.Services.AddServices();
 builder.Services.AddRepositories(builder.Configuration);
 
 
+builder.Services.AddMvc(options => options.Filters.Add<NotificationsFilter>());
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.SchemaFilter<EnumSchemaFilter>();
+    var layers = new List<string>() { "Application", "Domain" };
+    
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
+    foreach (var item in layers)
+    {
+        xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        xmlFilename = xmlFilename.Replace("API", item);
+        options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+    }
+
 });
 
 builder.Services.AddApiVersioning(opt =>
@@ -43,6 +56,7 @@ builder.Services.AddApiVersioning(opt =>
     setup.SubstituteApiVersionInUrl = true;
 });
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,6 +72,12 @@ if (app.Environment.IsDevelopment())
             options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
                 description.GroupName.ToUpperInvariant());
         }
+    });
+
+    app.UseReDoc(c =>
+    {
+        c.DocumentTitle = "QuickBite API";
+        c.SpecUrl = "/swagger/v1/swagger.json";
     });
 }
 
