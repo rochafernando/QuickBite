@@ -13,21 +13,19 @@ class Product {
 }
 
 
-class Ingrediente extends Produto {}
+class Ingrediente extends Product {}
 
-class ProdutoUnico extends Produto {}
+class ProductUnico extends Product {}
 
-class ProdutoProduzido extends Produto {}
+class ProductProduzido extends Product {}
 
-class Lanche extends ProdutoProduzido {}
+class Lanche extends ProductProduzido {}
 
-class Categoria {
+class Categorias {
     + id: int
     + nome: string
-    + removivel: bool
     + created_at: datetime
     + updated_at: datetime
-
 }
 
 
