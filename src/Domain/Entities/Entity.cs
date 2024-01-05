@@ -4,6 +4,8 @@ namespace Domain.Entities
 {
     public abstract class Entity : INotification
     {
+        public int Id { get; protected set; }   
+
         public IList<Notification> Errors { get; protected set; }
 
         protected Entity()

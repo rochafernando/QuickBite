@@ -1,4 +1,5 @@
 ﻿using Application.Responses;
+using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text.Json;
 
@@ -30,7 +31,7 @@ namespace API.Configurations.Middlewares
             {
 
                 _logger.LogError(
-                    DetailMessage, 
+                    ex.Message, 
                     new 
                     { 
                         Exception = ex, 
