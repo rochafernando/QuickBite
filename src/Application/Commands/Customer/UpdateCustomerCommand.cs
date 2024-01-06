@@ -6,6 +6,11 @@ namespace Application.Commands.Customer
     public class UpdateCustomerCommand : Command
     {
         /// <summary>
+        /// Uid do Cliente
+        /// </summary>
+        public Guid Uid { get; set; }
+
+        /// <summary>
         /// Nome do cliente.
         /// </summary>
         public string Name { get; set; } = string.Empty;

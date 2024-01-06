@@ -1,42 +1,102 @@
-﻿using Domain.Entities;
+﻿using Dapper;
+using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Microsoft.Data.SqlClient;
 
 namespace Infra.Data.Repositories
 {
-    public class CustomerRepository : RepositoryBase<Customer>, ICustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
-        public CustomerRepository(string connectionString) : base(connectionString)
+        private readonly string _connectionString;
+
+        public CustomerRepository(string connectionString)
         {
+            _connectionString = connectionString;
         }
 
         public async Task AddAsync(Customer client)
         {
-            var query = @"
-            insert into Client (Uid, Name, Document, Email, CreationDate) values (@Uid, @Name, @Document, @Email, GETDATE())";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"
+                    insert into Client (Uid, Name, Document, Email, CreationDate) values (@Uid, @Name, @Document, @Email, GETDATE())";
 
-            var param = new { client.Uid, client.Name, client.Document, client.Email };
+                var param = new { client.Uid, client.Name, client.Document, client.Email };
 
-            await base.AddAsync(query, param);
+                await connection.ExecuteAsync(query, param);
+            }
         }
 
-        public Task DeleteAsync(Customer client)
+        public async Task DeleteAsync(Customer client)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"
+                    delete from Client where Uid = @Uid";
+
+                var param = new { client.Uid };
+
+                await connection.ExecuteAsync(query, param);
+            }
         }
 
-        public Task<IEnumerable<Customer>> GetAllAsync()
+        public async Task<Customer?> GetByDocumentAsync(string document)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"
+                    select
+                        Id
+                        ,Uid
+                        ,Name
+                        ,Document
+                        ,Email
+                    from Client with(nolock) 
+                    where Document = @document";
+
+                var param = new { document };
+
+                return await connection.QueryFirstOrDefaultAsync(query, param);
+            }
         }
 
-        public Task<Customer?> GetByIdAsync(Guid id)
+        public async Task<Customer?> GetByUidAsync(Guid uid)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"
+                    select
+                        Id
+                        ,Uid
+                        ,Name
+                        ,Document
+                        ,Email
+                    from Client with(nolock) 
+                    where Uid = @uid"
+                ;
+
+                var param = new { uid };
+
+                return await connection.QueryFirstOrDefaultAsync<Customer>(query, param);
+            }
         }
 
-        public Task UpdateAsync(Customer client)
+        public async Task UpdateAsync(Customer client)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"
+                    update Client
+                        set Name = @Name
+                            ,Document = @Document
+                            ,Email = @Email
+                    where Uid = @Uid"
+                ;
+
+                var param = new { client.Uid, client.Name, client.Document, client.Email };
+
+                await connection.ExecuteAsync(query, param);
+            }
         }
     }
 }

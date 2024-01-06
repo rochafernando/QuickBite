@@ -21,6 +21,7 @@ namespace Infra.CrossCutting.IoC
             //}
 
             services.AddScoped<ICommandHandler<CreateCustomerCommand, CustomerResponse>, CreateCustomerHandler>();
+            services.AddScoped<ICommandHandler<UpdateCustomerCommand, CustomerResponse>, UpdateCustomerHandler>();
 
             return services;
         }
