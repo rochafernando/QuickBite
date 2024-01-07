@@ -48,12 +48,21 @@ namespace Domain.Entities
                 return;
             }
 
-            //if (!Regex.IsMatch(Email, @"/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i"))
-            //{
-            //    Errors.Add(new Notification { Code = 40000, Title = ErrorMessage.BadRequest, Message = ErrorMessage.EmailIsNotValid });
-            //}
+            if (!Regex.IsMatch(Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+            {
+                Errors.Add(new Notification { Code = 40000, Title = ErrorMessage.BadRequest, Message = ErrorMessage.EmailIsNotValid });
+            }
         }
 
         public static Customer Create(string name, string document, string email) => new Customer(name, document, email);
+
+        public void Update(string name, string document, string email)
+        {
+            Name = name;
+            Document = document;
+            Email = email;
+
+            Validate();
+        }
     }
 }

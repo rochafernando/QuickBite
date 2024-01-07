@@ -15,11 +15,15 @@ namespace API.Controllers.V1
     [Consumes("application/json")]
     public class CustomerController : ControllerBase
     {
-        private readonly ICommandHandler<CreateCustomerCommand, CustomerResponse> _handler;
+        private readonly ICommandHandler<CreateCustomerCommand, CustomerResponse> _createHandler;
+        private readonly ICommandHandler<UpdateCustomerCommand, CustomerResponse> _updateHandler;
 
-        public CustomerController(ICommandHandler<CreateCustomerCommand, CustomerResponse> handler)
+        public CustomerController(
+            ICommandHandler<CreateCustomerCommand, CustomerResponse> createHandler,
+            ICommandHandler<UpdateCustomerCommand, CustomerResponse> updateHandler)
         {
-            _handler = handler;
+            _createHandler = createHandler;
+            _updateHandler = updateHandler;
         }
 
 
@@ -37,26 +41,24 @@ namespace API.Controllers.V1
         [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(ErrorResponse))]
         public async Task<IActionResult> PostAsync([FromBody] CreateCustomerCommand createClientCommand)
         {
-            return Created(string.Empty, await _handler.HandleAsync(createClientCommand));
+            return Created(string.Empty, await _createHandler.HandleAsync(createClientCommand));
         }
 
         /// <summary>
         /// Atualiza um cliente.
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="updateClientCommand"></param>
         /// <response code="200">Retorna cliente atualizado</response>
         /// <response code="400">Bad Request</response>
         /// <response code="500">Interanl Server Error</response>
         [HttpPut]
-        [Route("{id}")]
         [Tags("Cliente")]
         [SwaggerResponse(StatusCodes.Status200OK, type: typeof(CustomerResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(IEnumerable<ErrorResponse>))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(ErrorResponse))]
-        public async Task<IActionResult> PutAsync([FromRoute]Guid id, [FromBody] UpdateCustomerCommand updateClientCommand)
+        public async Task<IActionResult> PutAsync([FromBody] UpdateCustomerCommand updateClientCommand)
         {
-            return Ok("V1");
+            return Ok(await _updateHandler.HandleAsync(updateClientCommand));
         }
 
         /// <summary>

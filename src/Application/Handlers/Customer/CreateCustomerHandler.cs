@@ -4,6 +4,7 @@ using Domain.Interfaces.CQS;
 using Domain.Interfaces.Repositories;
 using Domain.Notifications;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace Application.Handlers.Customer
 {
@@ -11,38 +12,39 @@ namespace Application.Handlers.Customer
     {
         private readonly ILogger<CreateCustomerHandler> _logger;
         private readonly NotificationContext _notificationContext;
-        private readonly ICustomerRepository _clientRepository;
+        private readonly ICustomerRepository _customerRepository;
 
         public CreateCustomerHandler(
             ILogger<CreateCustomerHandler> logger,
             NotificationContext notificationContext,
-            ICustomerRepository clientRepository)
+            ICustomerRepository customerRepository)
         {
             _logger = logger;
             _notificationContext = notificationContext;
-            _clientRepository = clientRepository;
+            _customerRepository = customerRepository;
         }
 
         public async Task<CustomerResponse?> HandleAsync(CreateCustomerCommand command)
         {
             _logger.LogInformation(
-                "Request Received",
-                new
-                {
-                    Command = command,
-                    ClassName = nameof(CreateCustomerHandler),
-                    MethodName = nameof(HandleAsync)
-                });
+                JsonSerializer.Serialize(
+                    new
+                    {
+                        Message = "Request Received",
+                        Command = command,
+                        ClassName = nameof(CreateCustomerHandler),
+                        MethodName = nameof(HandleAsync)
+                    }));
 
-            var client = Domain.Entities.Customer.Create(command.Name, command.Document, command.Email);
+            var customer = Domain.Entities.Customer.Create(command.Name, command.Document, command.Email);
 
-            _notificationContext.AddNotification(client);
+            _notificationContext.AddNotification(customer);
 
             if (_notificationContext.HasNotifications) return null;
 
-            await _clientRepository.AddAsync(client);
+            await _customerRepository.AddAsync(customer);
 
-            return new CustomerResponse { Id = client.Id, Uid = client.Uid, Name = client.Name, Document = client.Document, Email = client.Email };
+            return new CustomerResponse { Id = customer.Id, Uid = customer.Uid, Name = customer.Name, Document = customer.Document, Email = customer.Email };
         }
     }
 }

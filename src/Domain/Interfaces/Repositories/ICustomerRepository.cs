@@ -7,7 +7,7 @@ namespace Domain.Interfaces.Repositories
         Task AddAsync(Customer client);
         Task UpdateAsync(Customer client);
         Task DeleteAsync(Customer client);
-        Task<Customer?> GetByIdAsync(Guid id);
-        Task<IEnumerable<Customer>> GetAllAsync();
+        Task<Customer?> GetByDocumentAsync(string document);
+        Task<Customer?> GetByUidAsync(Guid uid);
     }
 }

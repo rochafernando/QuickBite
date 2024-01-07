@@ -1,6 +1,7 @@
 ﻿using Application.Responses;
 using Domain.Notifications;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.SignalR;
 using System.Text.Json;
 
 namespace API.Configurations.Filters
@@ -8,10 +9,14 @@ namespace API.Configurations.Filters
     public class NotificationsFilter : IAsyncResultFilter, IAsyncActionFilter
     {
         private readonly NotificationContext _notificationContext;
+        private readonly ILogger<NotificationsFilter> _logger;
 
-        public NotificationsFilter(NotificationContext notificationContext)
+        public NotificationsFilter(
+            NotificationContext notificationContext,
+            ILogger<NotificationsFilter> logger)
         {
             _notificationContext = notificationContext;
+            _logger = logger;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -40,6 +45,17 @@ namespace API.Configurations.Filters
 
             _notificationContext.Notifications.ToList().ForEach(notification =>
             {
+                _logger.LogWarning(
+                    JsonSerializer.Serialize(new
+                    {
+                        notification.Code,
+                        notification.Title,
+                        notification.Message,
+                        ClassName = nameof(NotificationsFilter),
+                        MethodName = nameof(OnResultExecutionAsync),
+
+                    }));
+
                 result.Add(new ErrorResponse { Code = notification.Code, Title = notification.Title, Detail = notification.Message });
             });
 
