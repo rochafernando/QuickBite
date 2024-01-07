@@ -2,30 +2,44 @@
 
 class Product {
     + id: int
-    + nome: string
-    + descrição: string
-    + pathImagem: string
-    + categoria : Categoria
-    + vendavel: bool
-    + removivel: bool
-    + created_at: datetime
-    + updated_at: datetime
+    + Characteristics: ProductCharacteristics
+    + category : Catergory
+    + sellable : bool
+    + removable : bool
+    + AuditDate: AuditDate      
 }
 
 
-class Ingrediente extends Product {}
+class Ingredients extends Product {}
 
-class ProductUnico extends Product {}
+class UniqueProduct extends Product {}
 
-class ProductProduzido extends Product {}
+class ManufacturedProduct extends Product {}
 
-class Lanche extends ProductProduzido {}
+class Snacks extends ManufacturedProduct {}
 
-class Categorias {
+class Category {
     + id: int
-    + nome: string
-    + created_at: datetime
-    + updated_at: datetime
+    + name: string
+    + AuditDate: AuditDate
+}
+
+namespace ValueObjects {
+    class  ProductCharacteristics {                
+        + name: string
+        + description: string
+        + pathImage: string        
+    }
+
+    class AuditDate {
+        + CreatedAt: datetime
+        + UpdatedAt: datetime
+    }
+
+    class PriceComposition {
+        + unitPrice: decimal
+        + comboPrice: decimal
+    }
 }
 
 

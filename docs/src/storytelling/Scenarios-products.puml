@@ -1,0 +1,18 @@
+@startuml Products Scenarios - Domain Storytelling
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+ 
+Person(admin)
+
+
+ 
+
+Boundary("productManager","Gestão de Produtos") {
+    System(sistema)
+    activity(_,admin, Inclue/Altera, Info: Categorias,  sistema)
+    activity(_,admin, Inclue/Altera, Info: Ingredientes,  sistema)
+    activity(_,admin, Inclue/Altera, Info: Ingredientes,  sistema)
+}
+ 
+
+@enduml
