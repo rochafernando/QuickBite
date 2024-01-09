@@ -9,9 +9,9 @@ Person(admin)
 
 Boundary("productManager","Gestão de Produtos") {
     System(sistema)
-    activity(_,admin, Inclue/Altera, Info: Categorias,  sistema)
-    activity(_,admin, Inclue/Altera, Info: Ingredientes,  sistema)
-    activity(_,admin, Inclue/Altera, Info: Ingredientes,  sistema)
+    activity(_,admin, Incluir/Altera, Info: Categorias,  sistema)
+    activity(_,admin, Incluir/Altera, Info: Ingredientes,  sistema)
+    activity(_,admin, Incluir/Altera, Info: Ingredientes,  sistema)
 }
  
 
