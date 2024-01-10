@@ -1,0 +1,11 @@
+@startuml Products Scenarios - Domain Storytelling
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+Person(cliente)
+System(sistema)
+
+activity(_,sistema, notifica, Info: pedido pronto,  para, cliente)
+activity(_,cliente, retira, Document: pedido)
+activity(_,sistema, notifica, Info: pedido finalizado,  para, cliente)
+
+@enduml
