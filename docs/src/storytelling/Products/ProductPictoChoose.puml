@@ -1,0 +1,22 @@
+@startuml
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include ProductActors.puml
+!include ProductObjects.puml
+
+Boundary("Actors", "Actors") {
+    Person(nutri, "Nutricionista")
+    Person(admin, "Administrador")
+}
+
+Boundary("ProductObjects", "ProductObjects") {
+    Snacks("Snack", "Lanches")
+    Combos("Combo", "Combos")
+    Ingredients("Ingredient", "Ingredientes")
+    Beverages("Beverage", "Bebidas")
+    Recipes("Recipe", "Receitas")
+    SideDishes("SideDish", "Acompanhamentos")
+    Desserts("Dessert", "Sobremesas")
+}
+
+@enduml

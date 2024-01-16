@@ -1,0 +1,38 @@
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+
+!include <material/nutrition> 
+!unquoted procedure Ingredients($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Ingredients", "$ma_nutrition", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/food>
+!unquoted procedure Combos($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Combo", "$ma_food", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/library_books>
+!unquoted procedure Recipes($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Combo", "$ma_library_books", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/hamburger>
+!unquoted procedure Snacks($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Snacks", "$ma_hamburger", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/beer>
+!unquoted procedure Beverages($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Beverages", "$ma_beer", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/food_variant>
+!unquoted procedure SideDishes($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("SideDishes", "$ma_food_variant", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/ice_cream> 
+!unquoted procedure Desserts($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Desserts", "$ma_ice_cream", $name, $label, $color, $scale, $note)
+!endprocedure

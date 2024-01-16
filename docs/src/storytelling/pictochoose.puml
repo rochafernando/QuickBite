@@ -1,0 +1,36 @@
+@startuml
+
+!include <material/hamburger>
+!include <material/ice_cream> 
+!include <material/beer> 
+!include <material/cup>
+!include <material/cup_off>
+!include <material/cup_water>
+'!include <material/forest>
+!include <material/food>
+!include <material/food_apple>
+!include <material/food_croissant>
+!include <material/food_fork_drink>
+!include <material/food_off>
+!include <material/food_variant>
+!include <material/glass_mug>
+!include <material/library_books>
+!include <material/nutrition> 
+!include <material/playlist_check>
+!include <material/playlist_minus>
+!include <material/playlist_play>
+!include <material/playlist_plus>
+!include <material/playlist_remove>
+!include <material/popcorn> 
+!include <material/pot>
+!include <material/pot_mix> 
+!include <material/receipt>
+!include <material/rice>
+!include <material/silverware>
+!include <material/silverware_fork>
+!include <material/silverware_spoon>
+!include <material/silverware_variant>
+!include <material/television_guide>
+!include <material/view_quilt>
+listsprites
+@enduml

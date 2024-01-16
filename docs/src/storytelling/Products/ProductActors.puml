@@ -1,0 +1,7 @@
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include <material/settings_box>
+!unquoted procedure Process($name, $label = "", $color = "", $scale = "", $note = "")
+    Actor("Process", "$ma_settings_box", $name, $label, $color, $scale, $note)
+!endprocedure
+
