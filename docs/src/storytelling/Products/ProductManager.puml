@@ -9,11 +9,12 @@ Person(nutri, "Nutricionista")
 Person(admin, "Administrador")
 
 
-activity(_,nutri, lista , Recipes: ingredientes das Receitas ,informa,  admin)
+activity(_,nutri, lista , Recipes: Ingredientes das Receitas ,informa,  admin)
 activity(_,nutri, cria ou altera, Recipes: Receita de Lanche, informa , admin)
 activity(_,nutri, cria ou altera, Recipes: Receita de Acompanhamentos, informa , admin)
 activity(_,nutri, cria ou altera, Recipes: Receita de Sobremesas, informa , admin)
 activity(_,nutri, lista, Recipes: Catalogo de Bebidas, informa , admin)
+activity(_,nutri, lista, Recipes: Catalogo de Produtos Unicos, informa , admin, $note= "Produtos como Molhos de Salada, Molho Barbecue, etc")
 
 
 

@@ -1,11 +1,11 @@
 @startuml
 
 !include <material/hamburger>
-!include <material/ice_cream> 
 !include <material/beer> 
 !include <material/cup>
 !include <material/cup_off>
 !include <material/cup_water>
+!include <material/ice_cream> 
 '!include <material/forest>
 !include <material/food>
 !include <material/food_apple>
