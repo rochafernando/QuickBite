@@ -1,0 +1,43 @@
+@startuml DomainStory-ProductManagement-InsertOrUpdateUniqueProducts
+title Product Management - Insert or Update Unique Products
+
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+
+Person(admin, "Administrador")
+Person(nutri, "Nutricionista")
+activity(_,nutri, lista, Recipes: Catalogo de Produtos Unicos, informa , admin)
+
+Boundary("productManager","Gestão de Produtos") {    
+    UniqueProducts(uniqueProduct, "Produtos Unico")    
+    System(sistema, "Gestão de Produtos")
+    Info(categoria, "Categoria")
+    
+    activity(_,sistema, Informa a Lista de, categoria, para, admin, <--, <--)
+    activity(_,admin, seleciona 1, categoria, do, uniqueProduct)
+    activity(_,admin, informa, Info:Nome, do, uniqueProduct)   
+    activity(_,admin, informa, Info:Descrição, do, uniqueProduct)
+    activity(_,admin, informa, Info:tabela nutricional, do, uniqueProduct)   
+    activity(_,admin, informa, Price:Preço Unitário, do, uniqueProduct)
+    activity(_,admin, informa, Price:Preço Combo, do, uniqueProduct)
+    activity(_,admin, faz upload, Photos: Imagem do Produto, no, uniqueProduct)
+    activity(_,uniqueProduct, Incluir ou Alterar, sistema) 
+           
+}
+
+note as UniqueProductsNote #LightYellow
+    Produtos Unicos são produtos que não são 
+    montados como lanches, acompanhamentos, 
+    sobremesas e bebidas. 
+
+    O Levantamento é feito pelo Nutricionista de Acordo 
+    com os produtos a serem vendidos. 
+    Eventualmente eles podem compor os lanches, acompanhamentos, ou vendidos 
+    separadamente como acompanhamentos    
+end note
+
+uniqueProduct .. UniqueProductsNote
+
+@enduml

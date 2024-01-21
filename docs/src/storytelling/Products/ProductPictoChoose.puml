@@ -17,6 +17,10 @@ Boundary("ProductObjects", "ProductObjects") {
     Recipes("Recipe", "Receitas")
     SideDishes("SideDish", "Acompanhamentos")
     Desserts("Dessert", "Sobremesas")
+    UniqueProducts("UniqueProduct", "Produtos únicos")
+    Photos("Photo", "Imagens dos produtos")
+    MarkRemovableItem("MarkRemovableItem", "Itens removíveis")
+    MarkPlusItem("MarkPlusItem", "Itens adicionais")
 }
 
 @enduml

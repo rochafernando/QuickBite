@@ -36,3 +36,29 @@
 !unquoted procedure Desserts($name, $label = "", $color = "", $scale = "", $note = "")
      Object("Desserts", "$ma_ice_cream", $name, $label, $color, $scale, $note)
 !endprocedure
+
+!include <material/image_area>
+!unquoted procedure Photos($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Photo", "$ma_image_area", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/pot_mix>
+!unquoted procedure UniqueProducts($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("UniqueProduct", "$ma_pot_mix", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/currency_usd>
+!unquoted procedure Price($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Price", "$ma_currency_usd", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/minus>
+!unquoted procedure MarkRemovableItem($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("MarkRemovableItem", "$ma_minus", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/plus>
+!unquoted procedure MarkPlusItem($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("MarkPlusItem", "$ma_plus", $name, $label, $color, $scale, $note)
+!endprocedure

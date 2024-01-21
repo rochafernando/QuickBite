@@ -1,0 +1,58 @@
+@startuml DomainStory-ProductManagement-InsertOrUpdateProductWithOptions
+title Product Management - Insert or Update  Products with Options
+
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+
+Person(admin, "Administrador")
+Person(nutri, "Nutricionista")
+activity(_,nutri, lista, Recipes:Receita de Lanche , informa , admin)
+
+Boundary("productManager","Gestão de Produtos") {    
+    Snacks(snack, "Lanches")    
+    System(sistema, "Gestão de Produtos")        
+    Info(categoria, "Categoria")
+    Ingredients(ingredients, "Ingredientes")
+    Recipes(receitaLanche, "Receita")
+    MarkRemovableItem(removable, "Itens removíveis")
+    MarkPlusItem(itensAdicionais, "Itens adicionais")
+    
+    activity(_,sistema, Informa a Lista de, categoria, para, admin, <--, <--)
+    activity(_,sistema, Informa a Lista de, ingredients, para, admin, <--, <--)
+    activity(_,admin, seleciona 1, categoria, para o, snack)
+    activity(_,admin, seleciona 1 ou mais, ingredients)
+    activity(_,ingredients, informar os , removable, dentro, receitaLanche)    
+    activity(_,ingredients, criar uma lista de , itensAdicionais, para compor o, snack)
+    activity(_,admin, informa, Info:Nome e Descrição, do, snack)   
+    activity(_,admin, informa, Price:Preço Unitário e Preço Combo, do, snack)    
+    activity(_,admin, faz upload, Photos: Imagem do Produto, no, snack)
+    activity(_,admin, inclui, receitaLanche, ao, snack)
+    activity(_, snack, Incluir ou Alterar, sistema)               
+
+}
+note as ItensAdicionaisNote #LightYellow
+    São os itens que podem ser adicionados ao lanche
+    Por Exemplo, um Big-Bacon. 
+    Vem com Pão, Hambúrguer, Queijo, Bacon, Alface, Tomate e Maionese
+    O cliente pode adicionar mais Bacon, Queijo, Alface, Tomate e Maionese, 
+    mas não pode adicionar mais Pão e Hambúrguer pois descaracterizaria o Produto
+end note
+note as receitaLancheNote #LightYellow
+    São as informações dos ingredientes que compõem o lanche
+end note
+note as RemovableItensNote #LightYellow
+    Alguns items de receita podem ser removidos pelo cliente
+    Devem ser removidos somente os itens que não descaracterizem o Produto
+    Por Exemplo,um Big-Bacon. 
+    Vem com Pão, Hambúrguer, Queijo, Bacon, Alface, Tomate e Maionese
+    O cliente pode remover Queijo, alface, tomate e Maionese, 
+    mas não pode remover o Pão, Hambúrguer e Bacon pois descaracterizaria o Produto
+end note
+
+
+removable .. RemovableItensNote
+itensAdicionais .. ItensAdicionaisNote
+receitaLanche .. receitaLancheNote
+@enduml

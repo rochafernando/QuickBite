@@ -13,7 +13,9 @@ class Product {
     + AuditDate: AuditDate      
 }
 
-class Beverage extends Product {}
+class Beverage extends Product {
+    
+}
 class SoftDrinks extends Beverage {}
 class AlcoholicBeverage extends Beverage {}
 class CustomBeverage extends Beverage {}
