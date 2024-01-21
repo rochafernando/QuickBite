@@ -1,0 +1,47 @@
+@startuml DomainStory-ProductManagement-InsertOrUpdateProductWithOptions
+title Product Management - Insert or Update  Bevarages
+
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+
+Person(admin, "Administrador")
+
+
+Boundary("productManager","Gestão de Produtos") {      
+    System(sistema, "Gestão de Produtos")        
+    Categories(categoria, "Categoria")
+    MarketBeverage(marketBeverage, "Bebidas de mercado")
+    CraftBeverage(craftBeverage, "Bebidas artesanais")
+    Beverages(beverage, "Bebidas")    
+    activity(_<,sistema, define, categoria, para, beverage)
+    activity(1<,beverage, , marketBeverage)    
+    activity(1<,beverage, ,craftBeverage)
+    Boundary("MarketBeverage", "Bebidas de Mercado") {
+        activity(_, admin, informa, Info: Nome e Descrição, para, marketBeverage)        
+        activity(_,admin, faz upload, Photos: Imagem do Produto, no, marketBeverage)
+        activity(_,admin, informa, Price:Preço Unitário e Preço Combo, do, marketBeverage)    
+
+    }
+
+    Boundary("CraftBeverage", "Bebidas Artesanais") {
+        Recipes(receita, "Receita")
+        activity(_, admin, informa, Info: Nome e Descrição, para, craftBeverage)
+        activity(_,admin, informa, receita, para, craftBeverage)
+        activity(_,admin, informa, Price:Preço Unitário e Preço Combo, do, craftBeverage)
+        activity(_,admin, faz upload, Photos: Imagem do Produto, no, craftBeverage)
+    }
+        
+     activity(_, marketBeverage, Incluir ou Alterar, sistema)               
+     activity(_, craftBeverage, Incluir ou Alterar, sistema)
+
+}
+
+
+
+
+@enduml
+
+
+

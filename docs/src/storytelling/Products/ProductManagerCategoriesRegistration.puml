@@ -10,7 +10,7 @@ Person(admin, "Administrador")
 
 
 Boundary("productManager","Gestão de Produtos") {    
-    Info(categories, "Categorias")
+    Categories(categories, "Categorias")
     System(sistema, "Gestão de Produtos")        
     activity(_,admin, informa, Info:Nome, da, categories)   
     activity(_,admin, informa, Info:Descrição, da, categories)       

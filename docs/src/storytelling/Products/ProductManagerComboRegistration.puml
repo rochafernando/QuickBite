@@ -1,0 +1,34 @@
+@startuml DomainStory-ProductManagement-InsertOrUpdateProductWithOptions
+title Product Management - Insert or Update  Bevarages
+
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+
+Person(admin, "Administrador")
+
+
+Boundary("productManager","Gestão de Produtos") {      
+    Combos(combo, "Combos")
+    System(sistema, "Gestão de Produtos")            
+    Beverages(beverage, "Bebidas")
+    Snacks(snack, "Lanches")
+    SideDishes(sideDish, "Acompanhamentos")
+
+    activity(_,sistema, define, Categories:Categoria Combo, para, combo, <-[#red]-)
+    activity(_,sistema, Apresenta lista , snack, para, admin, <-[#red]-)
+    activity(_,sistema, Apresenta lista , beverage, para, admin, <-[#red]-)
+    activity(_,sistema, Apresenta lista , sideDish, para, admin, <-[#red]-)
+    activity(_, admin, informa, Info: Nome e Descrição, para, combo, -[#4567ff]->)
+    activity(_, admin, seleciona, snack, para, combo, -[#4567ff]->)
+    activity(_, admin, seleciona, beverage, para, combo, -[#4567ff]->)
+    activity(_, admin, seleciona, sideDish, para, combo, -[#4567ff]->)
+    activity(_, combo, Incluir ou Alterar, sistema, , combo, -[#4567ff]->)             
+
+}
+
+@enduml
+
+
+

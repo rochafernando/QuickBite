@@ -24,6 +24,7 @@ class Ingredient extends Product {
     maxQuantidy: int
 }
 
+
 class UniqueProduct extends Product {
     - purchasePrice: decimal
     + PurchasePrice: decimal
@@ -94,7 +95,14 @@ namespace ValueObjects {
 Product "1" -- "1" ValueObjects.ProductCharacteristics
 Product "1" -- "1" ValueObjects.PriceComposition
 Product "1" -- "1" ValueObjects.AuditDate
+
+note as BeverageNote
+ A bebida é uma categoria, o produto bebida em si pode derivar de UniqueProduct
+ , ou ProductWithOption
+end note
 @enduml
+
+'-----------------------------------------------------------------------------------
 
 @startuml - Product Management - Relações de Objetos - Ingredientes
 object Ingredient.12 {

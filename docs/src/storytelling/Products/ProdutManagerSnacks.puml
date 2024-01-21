@@ -1,5 +1,5 @@
 @startuml DomainStory-ProductManagement-InsertOrUpdateProductWithOptions
-title Product Management - Insert or Update  Products with Options
+title Product Management - Insert or Update  Snacks
 
 !include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
 !include ProductActors.puml
@@ -7,13 +7,11 @@ title Product Management - Insert or Update  Products with Options
 
 
 Person(admin, "Administrador")
-Person(nutri, "Nutricionista")
-activity(_,nutri, lista, Recipes:Receita de Lanche , informa , admin)
 
 Boundary("productManager","Gestão de Produtos") {    
     Snacks(snack, "Lanches")    
-    System(sistema, "Gestão de Produtos")        
-    Info(categoria, "Categoria")
+    System(sistema, "Gestão de Produtos")            
+    Categories(categoria, "Categoria")
     Ingredients(ingredients, "Ingredientes")
     Recipes(receitaLanche, "Receita")
     MarkRemovableItem(removable, "Itens removíveis")
@@ -29,7 +27,7 @@ Boundary("productManager","Gestão de Produtos") {
     activity(_,admin, informa, Price:Preço Unitário e Preço Combo, do, snack)    
     activity(_,admin, faz upload, Photos: Imagem do Produto, no, snack)
     activity(_,admin, inclui, receitaLanche, ao, snack)
-    activity(_, snack, Incluir ou Alterar, sistema)               
+    activity(_, snack, Incluir ou Alterar, sistema)         
 
 }
 note as ItensAdicionaisNote #LightYellow
@@ -56,3 +54,6 @@ removable .. RemovableItensNote
 itensAdicionais .. ItensAdicionaisNote
 receitaLanche .. receitaLancheNote
 @enduml
+
+
+

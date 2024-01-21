@@ -5,20 +5,7 @@ title Product Management - General Overview for Product Registration
 !include ProductActors.puml
 !include ProductObjects.puml
 
-Person(nutri, "Nutricionista")
 Person(admin, "Administrador")
-Person(customer, "cliente")
-
-
-activity(_,nutri, lista , Recipes: Ingredientes das Receitas ,informa,  admin)
-activity(_,nutri, cria ou altera, Recipes: Receita de Lanche, informa , admin)
-activity(_,nutri, cria ou altera, Recipes: Receita de Acompanhamentos, informa , admin)
-activity(_,nutri, cria ou altera, Recipes: Receita de Sobremesas, informa , admin)
-activity(_,nutri, lista, Recipes: Catalogo ou Receitas de Bebidas, informa , admin)
-activity(_,nutri, lista, Recipes: Catalogo de Produtos Unicos, informa , admin, $note= "Produtos como Molhos de Salada, Molho Barbecue, etc")
-
-
-
 
 Boundary("productManager","Gestão de Produtos") {    
     System(sistema, "Gestão de Produtos")

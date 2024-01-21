@@ -46,6 +46,8 @@
 !include <material/food_off>
 !include <material/food_variant>
 !include <material/glass_mug>
+!include <material/label>
+!include <material/label_outline>
 !include <material/library_books>
 !include <material/minus>
 !include <material/minus_box>

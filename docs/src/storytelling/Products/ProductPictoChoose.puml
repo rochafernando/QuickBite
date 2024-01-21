@@ -10,6 +10,7 @@ Boundary("Actors", "Actors") {
 }
 
 Boundary("ProductObjects", "ProductObjects") {
+    Categories("Category", "Categorias")
     Snacks("Snack", "Lanches")
     Combos("Combo", "Combos")
     Ingredients("Ingredient", "Ingredientes")
@@ -21,6 +22,8 @@ Boundary("ProductObjects", "ProductObjects") {
     Photos("Photo", "Imagens dos produtos")
     MarkRemovableItem("MarkRemovableItem", "Itens removíveis")
     MarkPlusItem("MarkPlusItem", "Itens adicionais")
+    MarketBeverage("MarketBeverage", "Bebidas de mercado")
+    CraftBeverage("CraftBeverage", "Bebidas artesanais")
 }
 
 @enduml

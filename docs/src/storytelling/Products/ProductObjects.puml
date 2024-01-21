@@ -27,6 +27,18 @@
      Object("Beverages", "$ma_beer", $name, $label, $color, $scale, $note)
 !endprocedure
 
+!include <material/cup>
+!unquoted procedure MarketBeverage($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("MarketBeverage", "$ma_cup", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/glass_mug>
+!unquoted procedure CraftBeverage($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("CraftBeverage", "$ma_glass_mug", $name, $label, $color, $scale, $note)     
+!endprocedure
+
+
+
 !include <material/food_variant>
 !unquoted procedure SideDishes($name, $label = "", $color = "", $scale = "", $note = "")
      Object("SideDishes", "$ma_food_variant", $name, $label, $color, $scale, $note)
@@ -61,4 +73,10 @@
 !include <material/plus>
 !unquoted procedure MarkPlusItem($name, $label = "", $color = "", $scale = "", $note = "")
      Object("MarkPlusItem", "$ma_plus", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/label>
+!unquoted procedure Categories($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Categories", "$ma_label", $name, $label, $color, $scale, $note)
 !endprocedure

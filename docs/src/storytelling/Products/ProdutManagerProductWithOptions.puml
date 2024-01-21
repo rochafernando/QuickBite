@@ -1,5 +1,5 @@
 @startuml DomainStory-ProductManagement-InsertOrUpdateProductWithOptions
-title Product Management - Insert or Update  Products with Options
+title Product Management - Insert or Update  Products with Options (SideDishes)
 
 !include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
 !include ProductActors.puml
@@ -7,24 +7,20 @@ title Product Management - Insert or Update  Products with Options
 
 
 Person(admin, "Administrador")
-Person(nutri, "Nutricionista")
-activity(_,nutri, lista, Recipes:Receita de Acompanhamento , informa , admin)
 
 Boundary("productManager","Gestão de Produtos") {    
     SideDishes(sideDishes, "Acompanhamento")    
     UniqueProducts(uniqueProduct, "Lista de Produtos Unicos")
     System(sistema, "Gestão de Produtos")        
-    Info(categoria, "Categoria")
+    Categories(categoria, "Categoria")
     
     activity(_,sistema, Informa a Lista de, categoria, para, admin, <--, <--)
     activity(_,sistema, Informa a Lista de, uniqueProduct, para, admin, <--, <--)
     activity(_,admin, seleciona 1, categoria, do, sideDishes)
     activity(_,admin, seleciona a lista, uniqueProduct, do, sideDishes)
-    activity(_,admin, informa, Info:Nome, do, sideDishes)   
-    activity(_,admin, informa, Info:Descrição, do, sideDishes)   
+    activity(_,admin, informa, Info:Nome e Descrição, do, sideDishes)   
     activity(_,admin, informa, Info:tabela nutricional, do, sideDishes)    
-    activity(_,admin, informa, Price:Preço Unitário, do, sideDishes)
-    activity(_,admin, informa, Price:Preço Combo, do, sideDishes)
+    activity(_,admin, informa, Price:Preço Unitário e Preço Combo, do, sideDishes)
     activity(_,admin, faz upload, Photos: Imagem do Produto, no, sideDishes)
     activity(_, sideDishes, Incluir ou Alterar, sistema)               
 
@@ -37,6 +33,7 @@ note as ProductWithOptionsNote #LightYellow
     São compostos de sua montagem e algum item 
     de Produto Unico para complementar.       
 end note
+
 sideDishes -- ProductWithOptionsNote
 
 }
