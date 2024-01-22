@@ -1,0 +1,47 @@
+@startuml DomainStory-ProductManagement-InsertOrUpdateProductWithOptions
+title Product Management - Pre Order
+
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+
+Person(customer, "cliente")
+
+
+Boundary("productManager","Gestão de Produtos") {      
+    Products(products, "Produtos Disponiveis")
+    Products(productsInBasket, "Produtos na Cesta")
+    Categories(categories, "Categorias")
+    Combos(combo, "Combos")
+    System(productSystem, "Gestão de Produtos")            
+    Beverages(beverage, "Bebidas")
+    Snacks(snack, "Lanches")
+    SideDishes(sideDish, "Acompanhamentos")
+    CustomizeProduct(customizeProduct, "Personalização de produtos")
+    IncludeInBasket(includeInBasket, "Inclusão de item")
+    RemoveFromBasket(removeFromBasket, "Remoção de item")
+    Desserts(dessert, "Sobremesas")
+
+    activity(_,productSystem, exibe lista de, categories, para, customer, <-[#red]-)
+    activity(_,customer, escolhe a , categories, para receber a lista de produtos, productSystem , -[#4567ff]->)
+    activity(_,productSystem, inclui lista na, combo, de, products, <-[#red]-)    
+    activity(_,productSystem, inclui lista na, sideDish, de, products, <-[#red]-)
+    activity(_,productSystem, inclui lista na, snack, de, products, <-[#red]-)
+    activity(_,productSystem, inclui lista na, beverage, de, products, <-[#red]-)
+    activity(_,productSystem, inclui lista na, dessert, de, products, <-[#red]-)
+    activity(_,products, apresenta lista, customer, _, _, <-[#red]-)
+    activity(_,customer, seleciona, products, _, _, -[#4567ff]->)
+    activity(|,products, envia para, includeInBasket, _, _, -[#4567ff]->)
+    activity(_,products, faz, customizeProduct, _, _, -[#4567ff]->)
+    activity(|,customizeProduct, envia para, includeInBasket, na cesta, productSystem, -[#4567ff]->)
+    
+    activity(_,customer, solicita lista, productsInBasket, para, productSystem, -[#4567ff]-> )
+    activity(_,productSystem, envia lista, productsInBasket, para, customer, <-[#red]- )
+    activity(_,customer, solicita, removeFromBasket, na cesta, productSystem, -[#4567ff]->)
+    activity(_,customer, confima, Info: itens da cesta, para,productSystem, -[#4567ff]->)
+}
+
+Boundary("OrderManager","Gestão de Pedidos")
+
+@enduml

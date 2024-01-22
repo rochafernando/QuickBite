@@ -5,11 +5,14 @@
 !include ProductObjects.puml
 
 Boundary("Actors", "Actors") {
-    Person(nutri, "Nutricionista")
+    Person(cliente, "Cliente")
     Person(admin, "Administrador")
+    System(productSystem, "Gestão de Produtos")
+    System(orderSystem, "Gestão de Pedidos")
 }
 
-Boundary("ProductObjects", "ProductObjects") {
+Boundary("ProductObjects", "Action Objects - Product Context") {
+    Products("Product", "Produto")
     Categories("Category", "Categorias")
     Snacks("Snack", "Lanches")
     Combos("Combo", "Combos")
@@ -24,6 +27,9 @@ Boundary("ProductObjects", "ProductObjects") {
     MarkPlusItem("MarkPlusItem", "Itens adicionais")
     MarketBeverage("MarketBeverage", "Bebidas de mercado")
     CraftBeverage("CraftBeverage", "Bebidas artesanais")
+    CustomizeProduct("CustomizeProduct", "Personalização de produtos")
+    IncludeInBasket("IncludeInBasket", "Inclusão no carrinho")
+    RemoveFromBasket("RemoveFromBasket", "Remoção do carrinho")
 }
 
 @enduml
