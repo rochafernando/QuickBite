@@ -1,4 +1,5 @@
 ﻿using Application.Commands.Customer;
+using Application.Queries.Customer;
 using Application.Responses;
 using Application.Responses.Customer;
 using Asp.Versioning;
@@ -17,20 +18,26 @@ namespace API.Controllers.V1
     {
         private readonly ICommandHandler<CreateCustomerCommand, CustomerResponse> _createHandler;
         private readonly ICommandHandler<UpdateCustomerCommand, CustomerResponse> _updateHandler;
+        private readonly ICommandHandler<DeleteCustomerCommand> _deleteHandler;
+        private readonly IQueryHandler<FindCustomerByUidQuery, CustomerResponse> _findByIdHandler;
 
         public CustomerController(
             ICommandHandler<CreateCustomerCommand, CustomerResponse> createHandler,
-            ICommandHandler<UpdateCustomerCommand, CustomerResponse> updateHandler)
+            ICommandHandler<UpdateCustomerCommand, CustomerResponse> updateHandler,
+            ICommandHandler<DeleteCustomerCommand> deleteHandler,
+            IQueryHandler<FindCustomerByUidQuery, CustomerResponse> findByIdHandler)
         {
             _createHandler = createHandler;
             _updateHandler = updateHandler;
+            _deleteHandler = deleteHandler;
+            _findByIdHandler = findByIdHandler;
         }
 
 
         /// <summary>
         /// Cria um cliente novo.
         /// </summary>
-        /// <param name="createClientCommand"></param>
+        /// <param name="createCustomerCommand"></param>
         /// <response code="201">Retorna cliente criado</response>
         /// <response code="400">Bad Request</response>
         /// <response code="500">Interanl Server Error</response>
@@ -39,9 +46,9 @@ namespace API.Controllers.V1
         [SwaggerResponse(StatusCodes.Status201Created, type: typeof(CustomerResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(IEnumerable<ErrorResponse>))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(ErrorResponse))]
-        public async Task<IActionResult> PostAsync([FromBody] CreateCustomerCommand createClientCommand)
+        public async Task<IActionResult> PostAsync([FromBody] CreateCustomerCommand createCustomerCommand)
         {
-            return Created(string.Empty, await _createHandler.HandleAsync(createClientCommand));
+            return Created(string.Empty, await _createHandler.HandleAsync(createCustomerCommand));
         }
 
         /// <summary>
@@ -69,32 +76,33 @@ namespace API.Controllers.V1
         /// <response code="400">Bad Request</response>
         /// <response code="500">Interanl Server Error</response>
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{uid}")]
         [Tags("Cliente")]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(IEnumerable<ErrorResponse>))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(ErrorResponse))]
         public async Task<IActionResult> DeleteAsync([FromRoute] DeleteCustomerCommand deleteClientCommand)
         {
-            return Ok("V1");
+            await _deleteHandler.HandleAsync(deleteClientCommand);
+            return NoContent();
         }
 
         /// <summary>
-        /// Busca um cliente pelo Id.
+        /// Busca um cliente pelo Uid.
         /// </summary>
-        /// <param name="findClientByIdCommand"></param>
+        /// <param name="findClientByUidQuery"></param>
         /// <response code="200">Retorna o cliente pelo Id</response>
         /// <response code="400">Bad Request</response>
         /// <response code="500">Interanl Server Error</response>
         [HttpGet]
-        [Route("{id}")]
+        [Route("{uid}")]
         [Tags("Cliente")]
         [SwaggerResponse(StatusCodes.Status200OK, type: typeof(CustomerResponse))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(IEnumerable<ErrorResponse>))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(ErrorResponse))]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] FindCustomerByIdCommand findClientByIdCommand)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] FindCustomerByUidQuery findClientByUidQuery)
         {
-            return Ok("V1");
+            return Ok(await _findByIdHandler.HandleAsync(findClientByUidQuery));
         }
     }
 }

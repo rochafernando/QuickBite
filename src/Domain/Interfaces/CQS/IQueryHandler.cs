@@ -2,6 +2,6 @@
 {
     public interface IQueryHandler<in TQuery, TResult> where TQuery : IQuery where TResult : IResult
     {
-        Task<TResult> HandleAsync(TQuery query);
+        Task<TResult?> HandleAsync(TQuery query);
     }
 }

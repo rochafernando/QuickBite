@@ -59,7 +59,7 @@ namespace Application.Handlers.Customer
 
             await _customerRepository.UpdateAsync(customer);
 
-            return new CustomerResponse { Id = customer.Id, Uid = customer.Uid, Name = customer.Name, Document = customer.Document, Email = customer.Email };
+            return new CustomerResponse { Uid = customer.Uid, Name = customer.Name, Document = customer.Document, Email = customer.Email };
         }
     }
 }

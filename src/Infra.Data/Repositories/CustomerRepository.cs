@@ -19,7 +19,7 @@ namespace Infra.Data.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 var query = @"
-                    insert into Client (Uid, Name, Document, Email, CreationDate) values (@Uid, @Name, @Document, @Email, GETDATE())";
+                    insert into Customer (Uid, Name, Document, Email, CreationDate) values (@Uid, @Name, @Document, @Email, GETDATE())";
 
                 var param = new { client.Uid, client.Name, client.Document, client.Email };
 
@@ -27,36 +27,16 @@ namespace Infra.Data.Repositories
             }
         }
 
-        public async Task DeleteAsync(Customer client)
+        public async Task DeleteAsync(Guid uid)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 var query = @"
-                    delete from Client where Uid = @Uid";
+                    delete from Customer where Uid = @uid";
 
-                var param = new { client.Uid };
+                var param = new { uid };
 
                 await connection.ExecuteAsync(query, param);
-            }
-        }
-
-        public async Task<Customer?> GetByDocumentAsync(string document)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    select
-                        Id
-                        ,Uid
-                        ,Name
-                        ,Document
-                        ,Email
-                    from Client with(nolock) 
-                    where Document = @document";
-
-                var param = new { document };
-
-                return await connection.QueryFirstOrDefaultAsync(query, param);
             }
         }
 
@@ -71,7 +51,7 @@ namespace Infra.Data.Repositories
                         ,Name
                         ,Document
                         ,Email
-                    from Client with(nolock) 
+                    from Customer with(nolock) 
                     where Uid = @uid"
                 ;
 
@@ -86,7 +66,7 @@ namespace Infra.Data.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 var query = @"
-                    update Client
+                    update Customer
                         set Name = @Name
                             ,Document = @Document
                             ,Email = @Email
