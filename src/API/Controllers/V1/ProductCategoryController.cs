@@ -35,7 +35,7 @@ namespace API.Controllers.V1
 
 
         /// <summary>
-        /// Retorna lista de categorias.
+        /// Busca lista de categorias.
         /// </summary>
         /// <response code="200">Retorna lista de categorias</response>
         /// <response code="500">Interanl Server Error</response>
@@ -49,7 +49,7 @@ namespace API.Controllers.V1
         }
 
         /// <summary>
-        /// Cria uma categoria nova.
+        /// Cria uma categoria.
         /// </summary>
         /// <param name="createProductCategoryCommand"></param>
         /// <response code="201">Retorna categoria criada</response>
@@ -86,15 +86,16 @@ namespace API.Controllers.V1
         /// Remove uma categoria.
         /// </summary>
         /// <param name="deleteCategoryCommand"></param>
-        /// <response code="204">No Content</response>
+        /// <response code="204">Success</response>
         /// <response code="400">Bad Request</response>
         /// <response code="500">Interanl Server Error</response>
         [HttpDelete]
+        [Route("{uid}")]
         [Tags("Categoria do Produto")]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(IEnumerable<ErrorResponse>))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(ErrorResponse))]
-        public async Task<IActionResult> DeleteCategoryAsync([FromBody] DeleteProductCategoryCommand deleteCategoryCommand)
+        public async Task<IActionResult> DeleteCategoryAsync([FromRoute] DeleteProductCategoryCommand deleteCategoryCommand)
         {
             await _deleteProductCategoryHandler.HandleAsync(deleteCategoryCommand);
 

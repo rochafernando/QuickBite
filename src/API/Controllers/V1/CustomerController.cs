@@ -35,7 +35,7 @@ namespace API.Controllers.V1
 
 
         /// <summary>
-        /// Cria um cliente novo.
+        /// Cria um cliente.
         /// </summary>
         /// <param name="createCustomerCommand"></param>
         /// <response code="201">Retorna cliente criado</response>
@@ -52,7 +52,7 @@ namespace API.Controllers.V1
         }
 
         /// <summary>
-        /// Atualiza um cliente.
+        /// Altera um cliente.
         /// </summary>
         /// <param name="updateClientCommand"></param>
         /// <response code="200">Retorna cliente atualizado</response>
@@ -69,10 +69,10 @@ namespace API.Controllers.V1
         }
 
         /// <summary>
-        /// Exclui um cliente.
+        /// Remove um cliente.
         /// </summary>
         /// <param name="deleteClientCommand"></param>
-        /// <response code="204">No Content</response>
+        /// <response code="204">Success</response>
         /// <response code="400">Bad Request</response>
         /// <response code="500">Interanl Server Error</response>
         [HttpDelete]
