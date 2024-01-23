@@ -37,13 +37,13 @@ namespace Application.Handlers.Customer
                         MethodName = nameof(HandleAsync)
                     }));
 
-            if (command == null || command.Uid == Guid.Empty) 
+            if (Guid.TryParse(command.Uid, out var result) is false && result == Guid.Empty)
             {
                 _notificationContext.AddNotification(new Notification { Code = 40000, Title = ErrorMessage.BadRequest, Message = ErrorMessage.CommandIsNotValid });   
                 return null;
             }
 
-            var customer = await _customerRepository.GetByUidAsync(command.Uid);
+            var customer = await _customerRepository.GetByUidAsync(Guid.Parse(command.Uid));
 
             if (customer == null)
             {

@@ -1,6 +1,8 @@
 ﻿using Application.Handlers.Customer;
+using Application.Handlers.Product;
 using Application.Queries.Customer;
 using Application.Responses.Customer;
+using Application.Responses.Product;
 using Domain.Interfaces.CQS;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +23,7 @@ namespace Infra.CrossCutting.IoC
             //}
 
             services.AddScoped<IQueryHandler<FindCustomerByUidQuery, CustomerResponse>, FindCustomerByUidHandler>();
+            services.AddScoped<IQueryHandler<IEnumerable<ProductCategoryResponse>>, GetAllProductCategoryHandler>();
 
             return services;
         }

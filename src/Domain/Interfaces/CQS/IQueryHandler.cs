@@ -4,4 +4,9 @@
     {
         Task<TResult?> HandleAsync(TQuery query);
     }
+
+    public interface IQueryHandler<TResult> where TResult : IEnumerable<IResult>
+    {
+        Task<TResult?> HandleAsync();
+    }
 }

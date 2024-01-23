@@ -8,7 +8,7 @@ namespace Application.Commands.Customer
         /// <summary>
         /// Uid do Cliente
         /// </summary>
-        public Guid Uid { get; set; }
+        public string Uid { get; set; } = string.Empty;
 
         /// <summary>
         /// Nome do cliente.

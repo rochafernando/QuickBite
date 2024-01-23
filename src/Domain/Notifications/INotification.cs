@@ -1,6 +1,6 @@
 ﻿namespace Domain.Notifications
 {
-    public interface INotification
+    public interface INotificationList
     {
         IList<Notification> Errors { get; }
     }

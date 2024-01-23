@@ -1,6 +1,9 @@
 ﻿using Application.Commands.Customer;
+using Application.Commands.Product;
 using Application.Handlers.Customer;
+using Application.Handlers.Product;
 using Application.Responses.Customer;
+using Application.Responses.Product;
 using Domain.Interfaces.CQS;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +26,9 @@ namespace Infra.CrossCutting.IoC
             services.AddScoped<ICommandHandler<CreateCustomerCommand, CustomerResponse>, CreateCustomerHandler>();
             services.AddScoped<ICommandHandler<UpdateCustomerCommand, CustomerResponse>, UpdateCustomerHandler>();
             services.AddScoped<ICommandHandler<DeleteCustomerCommand>, DeleteCustomerHandler>();
+            services.AddScoped<ICommandHandler<CreateProductCategoryCommand, ProductCategoryResponse>, CreateProductCategoryHandler>();
+            services.AddScoped<ICommandHandler<UpdateProductCategoryCommand, ProductCategoryResponse>, UpdateProductCategoryHandler>();
+            services.AddScoped<ICommandHandler<DeleteProductCategoryCommand>, DeleteProductCategoryHandler>();
 
             return services;
         }

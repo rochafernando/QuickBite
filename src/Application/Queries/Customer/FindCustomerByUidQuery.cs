@@ -9,7 +9,7 @@ namespace Application.Queries.Customer
         /// <summary>
         /// Uid do cliente.
         /// </summary>
-        [JsonPropertyName("uid")]
+        //[JsonPropertyName("uid")]
         public string Uid { get; set; } = string.Empty;
     }
 }

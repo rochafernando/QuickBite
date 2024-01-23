@@ -11,7 +11,7 @@ namespace API.Controllers.V1
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/clients")]
+    [Route("api/v{version:apiVersion}/customers")]
     [Produces("application/json")]
     [Consumes("application/json")]
     public class CustomerController : ControllerBase

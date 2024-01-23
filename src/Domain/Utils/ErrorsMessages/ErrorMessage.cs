@@ -13,5 +13,8 @@ namespace Domain.Utils.ErrorsMessages
         public static string CommandIsNotValid = "Command is not valid";
         public static string QueryIsNotValid = "Query is not valid";
         public static string CustomerNotFound = "Customer not found";
+        public static string CategoryNameIsRequired = "Category name is required";
+        public static string CategoryDescriptionIsRequired = "Category description is required";
+        public static string CategoryNotFound = "Product category not found";
     }
 }

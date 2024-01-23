@@ -27,7 +27,7 @@ namespace Domain.Notifications
             notifications.Add(new Notification { Code = code, Title = title, Message = message });
         }
 
-        public void AddNotification(INotification notification)
+        public void AddNotification(INotificationList notification)
         {
             notification.Errors.ToList().ForEach(n => notifications.Add(n));
         }

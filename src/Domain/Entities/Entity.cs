@@ -2,7 +2,7 @@
 
 namespace Domain.Entities
 {
-    public abstract class Entity : INotification
+    public abstract class Entity : INotificationList
     {
         public int Id { get; protected set; }   
 
