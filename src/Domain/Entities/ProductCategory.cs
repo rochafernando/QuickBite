@@ -1,6 +1,5 @@
 ﻿using Domain.Notifications;
 using Domain.Utils.ErrorsMessages;
-using System.Reflection.Metadata;
 
 namespace Domain.Entities
 {
