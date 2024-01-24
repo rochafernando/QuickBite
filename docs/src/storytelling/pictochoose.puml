@@ -1,6 +1,5 @@
 @startuml
 
-!include <material/hamburger>
 !include <material/beer>
 !include <material/backburger>
 !include <material/basket>
@@ -46,6 +45,9 @@
 !include <material/food_off>
 !include <material/food_variant>
 !include <material/glass_mug>
+!include <material/hamburger>
+!include <material/hook>
+!include <material/hook_off>
 !include <material/label>
 !include <material/label_outline>
 !include <material/library_books>
@@ -54,7 +56,10 @@
 !include <material/minus_box_outline>
 !include <material/minus_circle>
 !include <material/minus_circle_outline>
-!include <material/nutrition> 
+!include <material/numeric>
+!include <material/nutrition>
+!include <material/package_variant>
+!include <material/package_variant_closed> 
 !include <material/playlist_check>
 !include <material/playlist_minus>
 !include <material/playlist_play>
@@ -74,11 +79,14 @@
 !include <material/pot_mix>
 !include <material/priority_high>
 !include <material/priority_low>
-!include <material/publish> 
+!include <material/publish>
+!include <material/qrcode>
+!include <material/qrcode_scan> 
 !include <material/receipt>
 !include <material/redo>
 !include <material/redo_variant>
 !include <material/rice>
+!include <material/road_variant>
 !include <material/silverware>
 !include <material/silverware_fork>
 !include <material/silverware_spoon>

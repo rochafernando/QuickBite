@@ -1,0 +1,6 @@
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include <material/account_alert>
+!unquoted procedure CustomerNonLogin($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("CustomerNonLogin", "$ma_account_alert", $name, $label, $color, $scale, $note)
+!endprocedure

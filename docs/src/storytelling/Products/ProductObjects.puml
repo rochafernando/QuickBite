@@ -102,7 +102,3 @@
      Object("Products", "$ma_food_fork_drink", $name, $label, $color, $scale, $note)
 !endprocedure
 
-!include <material/cart>
-!unquoted procedure Basket($name, $label = "", $color = "", $scale = "", $note = "")
-     Object("Basket", "$ma_cart", $name, $label, $color, $scale, $note)
-!endprocedure

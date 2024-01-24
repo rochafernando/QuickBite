@@ -1,0 +1,31 @@
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include <material/cart_outline>
+!unquoted procedure Basket($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Basket", "$ma_cart_outline", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/database>
+!unquoted procedure Database($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Database", "$ma_database", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/database_minus>
+!unquoted procedure DatabaseRemove($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("DatabaseRemove", "$ma_database_minus", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/database_plus>
+!unquoted procedure DatabaseAdd($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("DatabaseAdd", "$ma_database_plus", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/calculator>
+!unquoted procedure Calculator($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Calculator", "$ma_calculator", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/numeric>
+!unquoted procedure IdentityRegister($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("IdentityRegister", "$ma_numeric", $name, $label, $color, $scale, $note)
+!endprocedure

@@ -1,0 +1,30 @@
+@startuml
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ../SharedObjects.puml
+!include OrderActors.puml
+!include OrderObjects.puml
+
+Boundary("Actors", "Actors") {
+    Person(customer,"Cliente", $color=#blue)
+    CustomerNonLogin(customerNotLogged,"Cliente Nao Identificado", $color=#OrangeRed)
+    System(orderSystem,"Sistema de Pedidos")
+    System(productsSystem,"Sistema Produtos", $color=#LightCoral)
+    System(paymentSystem,"broker de Pagamentos", $color=#green)
+}
+
+Boundary(objects, "Action Objects - Your Context") {
+    Address(address,"Endereço")
+    Basket(basket, "cesta-prépedido")
+    WebHook(webhook, "WebHook")
+    OrderBasket(order, "Pedido")
+    CancelOrderBasket(cancelOrder, "Cancelamento de Pedido")
+    PaymentOrder(payment, "Ordem de Pagamento")
+    PayOrder(pay, "Efetiva Pagamento")
+    PaymentValue(paymentValue, "Valor de Pagamento")
+}
+
+@enduml
+
+@startuml
+colors
+@enduml
