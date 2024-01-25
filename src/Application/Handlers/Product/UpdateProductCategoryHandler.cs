@@ -42,6 +42,7 @@ namespace Application.Handlers.Product
                 _notificationContext.AddNotification(new Notification { Code = 40000, Title = ErrorMessage.BadRequest, Message = ErrorMessage.CommandIsNotValid });
                 return null;
             }
+
             var productCategory = await _productCategoryRepository.GetByUidAsync(Guid.Parse(command.Uid));
 
             if (productCategory == null)

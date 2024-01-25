@@ -25,6 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.DescribeAllParametersInCamelCase();
     options.SchemaFilter<EnumSchemaFilter>();
     var layers = new List<string>() { "Application", "Domain" };
     

@@ -1,13 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Text.Json.Serialization;
 
-namespace Application.Queries.Customer
+namespace Application.Queries.Product
 {
     [ExcludeFromCodeCoverage]
-    public class FindCustomerByUidQuery : Query
+    public class FindProductByUidQuery : Query
     {
         /// <summary>
-        /// Uid do cliente.
+        /// Uid do produto.
         /// </summary>
         public string Uid { get; set; } = string.Empty;
     }

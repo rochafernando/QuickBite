@@ -19,6 +19,8 @@ namespace Domain.ValuesObjects
             Name = name;
             Description = description;
             PathImage = pathImage;
+
+            Validate();
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

@@ -14,7 +14,6 @@ namespace Domain.Entities
 
         private Product()
         {
-            
         }
 
         private Product(ProductCategory category, ProductCharacteristics characteristics, bool sellable, bool enable, PriceComposition priceComposition)
@@ -26,6 +25,8 @@ namespace Domain.Entities
             Enable = enable;
             PriceComposition = priceComposition;
             AuditDate = AuditDate.Create(DateTime.Now);
+
+            Validate();
         }
 
 
@@ -54,5 +55,22 @@ namespace Domain.Entities
 
         public static Product Create(ProductCategory category, ProductCharacteristics characteristics, bool sellable, bool enable, PriceComposition priceComposition)
             => new Product(category, characteristics, sellable, enable, priceComposition);
+
+        public void Update(ProductCategory category, ProductCharacteristics characteristics, bool sellable, bool enable, PriceComposition priceComposition, AuditDate auditDate)
+        {
+            Category = category;
+            Characteristics = characteristics;
+            Sellable = sellable;
+            Enable = enable;
+            PriceComposition = priceComposition;
+            AuditDate = AuditDate.Create(auditDate.CreatedAt, DateTime.Now);
+
+            Validate();
+        }
+
+        public void SetCategory(ProductCategory? category) => Category = category;
+        public void SetCharacteristics(ProductCharacteristics? characteristics) => Characteristics = characteristics;
+        public void SetPriceComposition(PriceComposition? priceComposition) => PriceComposition = priceComposition;
+        public void SetAuditDate(AuditDate? auditDate) => AuditDate = auditDate;
     }
 }

@@ -88,7 +88,7 @@ namespace API.Controllers.V1
         }
 
         /// <summary>
-        /// Busca um cliente pelo Uid.
+        /// Busca um cliente pelo uid.
         /// </summary>
         /// <param name="findClientByUidQuery"></param>
         /// <response code="200">Retorna o cliente pelo Id</response>

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Domain.ValuesObjects;
 using Microsoft.Data.SqlClient;
 
 namespace Infra.Data.Repositories
@@ -59,29 +60,68 @@ namespace Infra.Data.Repositories
                     select
                         Id
                         ,Uid
-                        ,CategoryUid
                         ,Sellable
                         ,Enable
-                    from Product with(nolock);
+                    from Product with(nolock)
+                    order by 1 desc;
                     select
                         Id
-                        ,Uid
                         ,Name
                         ,Description
-                    from Category with(nolock);"
+                    from Product with(nolock)
+                    order by 1 desc;"
                 ;
 
                 var result = await connection.QueryMultipleAsync(query);
-                var product = result.Read<Product>();
-                var category = result.Read<ProductCategory>();
+                var product = result.Read<Product>().ToList();
+                var characteristics = result.Read<ProductCharacteristics>().ToList();
 
-                return new List<Product>();
+                for (int i = 0; i < product.Count(); i++)
+                {
+                    product[i].SetCharacteristics(characteristics[i]);
+                }
+                
+                return product;
             }
         }
 
-        public Task<Product?> GetByUidAsync(Guid uid)
+        public async Task<Product?> GetByUidAsync(Guid uid)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"
+                    select
+                        Id
+                        ,Uid
+                        ,Sellable
+                        ,Enable
+                    from Product with(nolock)
+                    where Uid = @uid;
+                    select
+                        CreatedAt
+                    from Product with(nolock)
+                    where Uid = @uid;
+                    select
+                        Id
+                        ,Name
+                        ,Description
+                    from Product with(nolock)
+                    where Uid = @uid;"
+                ;
+
+                var param = new { uid }; 
+                
+                var result = await connection.QueryMultipleAsync(query, param);
+                
+                var product = result.ReadFirstOrDefault<Product>();
+                var auditDate = result.ReadFirstOrDefault<AuditDate>();
+                var characteristics = result.ReadFirstOrDefault<ProductCharacteristics>();
+
+                product?.SetAuditDate(auditDate);
+                product?.SetCharacteristics(characteristics);
+
+                return product;
+            }
         }
 
         public async Task UpdateAsync(Product product)

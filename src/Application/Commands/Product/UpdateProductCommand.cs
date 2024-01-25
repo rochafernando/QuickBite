@@ -1,7 +1,12 @@
 ﻿namespace Application.Commands.Product
 {
-    public class CreateProductCommand : Command
+    public class UpdateProductCommand : Command
     {
+        /// <summary>
+        /// Uid do produto
+        /// </summary>
+        public string Uid { get; set; } = string.Empty;
+
         /// <summary>
         /// Uid da categoria
         /// </summary>

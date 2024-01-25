@@ -30,6 +30,8 @@ namespace Infra.CrossCutting.IoC
             services.AddScoped<ICommandHandler<UpdateProductCategoryCommand, ProductCategoryResponse>, UpdateProductCategoryHandler>();
             services.AddScoped<ICommandHandler<DeleteProductCategoryCommand>, DeleteProductCategoryHandler>();
             services.AddScoped<ICommandHandler<CreateProductCommand, ProductResponse>, CreateProductHandler>();
+            services.AddScoped<ICommandHandler<UpdateProductCommand, ProductResponse>, UpdateProductHandler>();
+            services.AddScoped<ICommandHandler<DeleteProductCommand>, DeleteProductHandler>();
 
             return services;
         }
