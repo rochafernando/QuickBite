@@ -6,21 +6,25 @@
 
 Boundary("Actors", "Actors") {
     Person(customer,"Cliente", $color=#blue)
-    CustomerNonLogin(customerNotLogged,"Cliente Nao Identificado", $color=#OrangeRed)
+    CustomerNonLogin(customerNotLogged,"Cliente não Identificado", $color=#OrangeRed)
     System(orderSystem,"Sistema de Pedidos")
     System(productsSystem,"Sistema Produtos", $color=#LightCoral)
-    System(paymentSystem,"broker de Pagamentos", $color=#green)
+    System(paymentSystem,"Broker de Pagamentos", $color=#green)
 }
 
-Boundary(objects, "Action Objects - Your Context") {
-    Address(address,"Endereço")
-    Basket(basket, "cesta-prépedido")
+Boundary(objects, "Action Objects - Order Context") {    
+    Basket(basket, "Produtos do Pedido")
     WebHook(webhook, "WebHook")
     OrderBasket(order, "Pedido")
     CancelOrderBasket(cancelOrder, "Cancelamento de Pedido")
     PaymentOrder(payment, "Ordem de Pagamento")
     PayOrder(pay, "Efetiva Pagamento")
     PaymentValue(paymentValue, "Valor de Pagamento")
+    Info(info,"Informações")
+    Calculator(calculator,"Calculo do Pedido")
+    Database(database,"Banco de Dados")
+    IdentityRegister(identityRegister,"Identidade")
+    DatabaseRemove(databaseRemove,"Remoção de Dados")
 }
 
 @enduml

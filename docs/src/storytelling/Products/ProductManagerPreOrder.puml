@@ -1,5 +1,5 @@
 @startuml DomainStory-ProductManagement-PreOrder
-title Product Management - Pre Order
+title Product Management - Pré Order (Customização e Confirmação do Pedido)
 
 !include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
 !include ../SharedObjects.puml

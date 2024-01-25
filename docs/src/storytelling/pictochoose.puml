@@ -1,5 +1,5 @@
 @startuml
-
+!include <material/account_card_details>
 !include <material/beer>
 !include <material/backburger>
 !include <material/basket>
@@ -36,6 +36,7 @@
 !include <material/delete_restore>
 !include <material/delete_sweep>
 !include <material/delete_variant>
+!include <material/email>
 !include <material/ice_cream> 
 '!include <material/forest>
 !include <material/food>

@@ -29,3 +29,14 @@
 !unquoted procedure IdentityRegister($name, $label = "", $color = "", $scale = "", $note = "")
      Object("IdentityRegister", "$ma_numeric", $name, $label, $color, $scale, $note)
 !endprocedure
+
+
+!include <material/account_card_details>
+!unquoted procedure AccountCardDetails($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("AccountCardDetails", "$ma_account_card_details", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/email>
+!unquoted procedure Email($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Email", "$ma_email", $name, $label, $color, $scale, $note)
+!endprocedure
