@@ -25,6 +25,11 @@ Boundary(objects, "Action Objects - Order Context") {
     Database(database,"Banco de Dados")
     IdentityRegister(identityRegister,"Identidade")
     DatabaseRemove(databaseRemove,"Remoção de Dados")
+    AddInQueue(addInQueue,"Adiciona na Fila")
+    OrderStatus(orderStatus,"Status do Pedido")
+    RestaurantPanel(restaurant,"Painel de Pedidos do Restaurante")
+    ServiceKiosk(serviceKiosk,"Totem de Autoatendimento")
+    PrintOrder(printOrder,"Impressão de Pedido")
 }
 
 @enduml

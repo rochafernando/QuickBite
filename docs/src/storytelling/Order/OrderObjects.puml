@@ -5,10 +5,6 @@
     Object("Address", "$ma_road_variant", $name, $label, $color, $scale, $note)
 !endprocedure
 
-!include <material/cart>
-!unquoted procedure OrderBasket($name, $label = "", $color = "", $scale = "", $note = "")
-     Object("OrderBasket", "$ma_cart", $name, $label, $color, $scale, $note)
-!endprocedure
 
 !include <material/cart_off>
 !unquoted procedure CancelOrderBasket($name, $label = "", $color = "", $scale = "", $note = "")
@@ -33,3 +29,8 @@
      Object("PaymentValue", "$ma_cash_usd", $name, $label, $color, $scale, $note)
 !endprocedure
 
+
+!include <material/printer>
+!unquoted procedure PrintOrder($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("PrintOrder", "$ma_printer", $name, $label, $color, $scale, $note)
+!endprocedure

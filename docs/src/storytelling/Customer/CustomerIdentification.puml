@@ -1,0 +1,42 @@
+@startuml Customer Scenarios - Domain Storytelling - Customer Identification
+title Customer Identification
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include ../SharedObjects.puml
+!include ../SharedActors.puml
+!include CustomerObjects.puml
+!include CustomerActors.puml
+
+Person(customer,"Cliente", $color=#blue)
+ServiceKiosk(servicekiosk,"Totem Autoatendimento", $color=#dc2626)
+AccountCardDetails(accountCardDetails,"Dados do Cliente")
+Info(iwanttoidentify,"Quero me identificar")
+Info(iwantmakeorder,"Quero fazer um pedido")
+Info(requestDocument,"CPF")
+Info(cpfError,"CPF nao encontrado")
+SensitiveDataTextBox(cpf,"CPF")
+Boundary(customerSystemContexted,"Sistema de Gestão de Clientes") {
+    System(customerSystem,"Sistema de Gestão de Clientes")    
+    Database(customerDatabase,"Banco de Dados de Clientes")
+}
+
+activity(_,servicekiosk, exibe, iwanttoidentify, ao, customer, <-[#dc2626]-)
+activity(|,servicekiosk, exibe, iwantmakeorder, ao, customer, <-[#dc2626]-)
+activity(_,customer, seleciona, iwanttoidentify, no, servicekiosk, -[#blue]->)
+activity(_, servicekiosk, solicita, requestDocument, ao, customer, <-[#dc2626]-)
+activity(_, customer, informa, cpf, ao, servicekiosk, -[#blue]->)
+activity(_, servicekiosk, envia, cpf, ao, customerSystem, -[#dc2626]->)
+activity(_, customerSystem, consulta, cpf, ao, customerDatabase, -->)
+activity(_, customerDatabase, retorna, accountCardDetails, ao, servicekiosk, <--)
+activity(_, servicekiosk, exibe, accountCardDetails, ao, customer, <-[#dc2626]-)
+activity(|, servicekiosk, apresenta tela, iwantmakeorder, ao, customer, <-[#dc2626]-)
+activity(_, customerDatabase, retorna, cpfError, ao, servicekiosk, <--)
+activity(_, servicekiosk, exibe, cpfError, ao, customer, <-[#dc2626]-)
+activity(|, servicekiosk, exibe, Info: Você pode ser cadastrar, ao, customer, <-[#dc2626]-)
+
+
+
+
+
+
+@enduml

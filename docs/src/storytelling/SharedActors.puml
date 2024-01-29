@@ -4,3 +4,9 @@
 !unquoted procedure CustomerNonLogin($name, $label = "", $color = "", $scale = "", $note = "")
     Actor("CustomerNonLogin", "$ma_account_alert", $name, $label, $color, $scale, $note)
 !endprocedure
+
+
+!include <material/television_guide>
+!unquoted procedure ServiceKiosk($name, $label = "", $color = "", $scale = "", $note = "")
+     Actor("ServiceKiosk", "$ma_television_guide", $name, $label, $color, $scale, $note)
+!endprocedure

@@ -1,5 +1,5 @@
-@startuml DomainStory-ProductManagement-InsertOrUpdateProductWithOptions
-title Product Management - Insert or Update  Bevarages
+@startuml DomainStory-ProductManagement-InsertOrUpdateCombos
+title Product Management - Insert or Update  Combos
 
 !include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
 !include ProductActors.puml

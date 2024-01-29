@@ -9,12 +9,12 @@ title Product Management - Insert or Update Categories
 Person(admin, "Administrador")
 
 
-Boundary("productManager","Gestão de Produtos") {    
+Boundary("productManager","Gestão de Produtos") {
     Categories(categories, "Categorias")
-    System(sistema, "Gestão de Produtos")        
-    activity(_,admin, informa, Info:Nome, da, categories)   
-    activity(_,admin, informa, Info:Descrição, da, categories)       
-    activity(_,categories, Info: Incluir ou Alterar, sistema)         
+    System(sistema, "Gestão de Produtos")
+    activity(_,admin, informa, Info:Nome, da, categories)
+    activity(_,admin, informa, Info:Descrição, da, categories)
+    activity(_,categories, Info: Incluir ou Alterar, sistema)
 }
 
 note as CategoriesNote

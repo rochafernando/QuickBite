@@ -1,0 +1,25 @@
+@startuml Customer-Picto
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+title Customer Pictogram
+
+!include ../SharedObjects.puml
+!include ../SharedActors.puml
+!include CustomerObjects.puml
+!include CustomerActors.puml
+
+Boundary(actors,"Actos Customer Context") {
+    Person(customer,"cliente")
+    ServiceKiosk(servicekiosk,"Totem Autoatendimento")
+    System(system,"Sistema")
+}
+
+
+Boundary(objects,"Objects Customer Context") {
+    TextBox(textbox,"Caixa de Texto")
+    SensitiveDataTextBox(sensibletextbox,"Caixa de Texto Sensível")    
+    Database(customerDatabase,"Banco de Dados de Clientes")
+    AccountCardDetails(accountCardDetails,"Dados do Cliente")
+    Info(info,"Informação")
+}
+
+@enduml

@@ -23,6 +23,8 @@
 !include <material/close_octagon_outline>
 !include <material/close_outline>
 !include <material/cup>
+!include <material/cube_outline>
+!include <material/cube_send>
 !include <material/cup_off>
 !include <material/cup_water>
 !include <material/data>
@@ -45,6 +47,10 @@
 !include <material/food_fork_drink>
 !include <material/food_off>
 !include <material/food_variant>
+!include <material/fridge>
+!include <material/fridge_filled>
+!include <material/fridge_filled_bottom>
+!include <material/fridge_filled_top>
 !include <material/glass_mug>
 !include <material/hamburger>
 !include <material/hook>
@@ -78,6 +84,7 @@
 !include <material/popcorn>
 !include <material/pot>
 !include <material/pot_mix>
+!include <material/printer>
 !include <material/priority_high>
 !include <material/priority_low>
 !include <material/publish>
@@ -92,9 +99,28 @@
 !include <material/silverware_fork>
 !include <material/silverware_spoon>
 !include <material/silverware_variant>
+!include <material/stove>
+!include <material/table_column>
+!include <material/table_column_plus_after>
+!include <material/table_column_remove>
+!include <material/tag_text_outline>
 !include <material/television_guide>
 !include <material/textbox>
 !include <material/textbox_password>
+!include <material/timer>
+!include <material/tumblr_reblog>
+!include <material/view_column>
+!include <material/view_dashboard>
+!include <material/view_dashboard_variant>
+!include <material/view_day>
+!include <material/view_grid>
+!include <material/view_headline>
+!include <material/view_list>
+!include <material/view_module>
+!include <material/view_parallel>
 !include <material/view_quilt>
+!include <material/view_sequential>
+!include <material/view_stream>
+!include <material/view_week>
 listsprites
 @enduml

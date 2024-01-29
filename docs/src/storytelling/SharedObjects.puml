@@ -40,3 +40,41 @@
 !unquoted procedure Email($name, $label = "", $color = "", $scale = "", $note = "")
      Object("Email", "$ma_email", $name, $label, $color, $scale, $note)
 !endprocedure
+
+
+
+!include <material/table_column_plus_after>
+!unquoted procedure AddInQueue($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("AddInQueue", "$ma_table_column_plus_after", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/table_column>
+!unquoted procedure Queue($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Queue", "$ma_table_column", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/table_column_remove>
+!unquoted procedure RemoveFromQueue($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Queue", "$ma_table_column_remove", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/view_sequential>
+!unquoted procedure RestaurantPanel($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("RestaurantPanel", "$ma_view_sequential", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/tag_text_outline>
+!unquoted procedure OrderStatus($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("OrderStatus", "$ma_tag_text_outline", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/cart>
+!unquoted procedure OrderBasket($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("OrderBasket", "$ma_cart", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/package_variant_closed> 
+!unquoted procedure Package($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("PackagePrepare", "$ma_package_variant_closed", $name, $label, $color, $scale, $note)
+!endprocedure

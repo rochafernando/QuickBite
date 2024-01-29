@@ -1,20 +1,24 @@
-@startuml  DomainStory-ProductManagement-OrderInfo
+@startuml  DomainStory-ProductManagement-PaymentCustomerAndOrderConfirmation
 !include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
 !include ../SharedObjects.puml
 !include OrderActors.puml
 !include OrderObjects.puml
-title Order Management - Apresentação do Pedido
+title Order Management - Pagamento do Cliente e Confirmaçao do Pedido
 
 Person(customer,"Cliente identificado", $color=#blue)
 CustomerNonLogin(customerNotLogged,"Cliente não Identificado", $color=#OrangeRed)
 Info(infoOrder,"Informações do Pedido", $color=#black)
 System(mercadoPago,"Mercado Pago")
 WebHook(webhook, "ConfirmaPagamento")
-
+AddInQueue(addInQueue,"Fila de Atendimento")
+RestaurantPanel(restaurantPanel,"Painel de Pedidos do Restaurante")
+OrderStatus(orderStatus,"Status - Recebido")
+Info(infoTempo,"Tempo para preparação - X minutos")
+ServiceKiosk(serviceKiosk,"Totem de Autoatendimento")
 
 Boundary(orderManager,"Gestão de Pedidos") {
-    System(orderSystem,"Sistema de Pedidos")    
-    OrderBasket(orderBasket, "Pedido")            
+    System(orderSystem,"Sistema de Pedidos", $color=#0ea5e9)    
+    OrderBasket(orderBasket, "Pedido")                
 }
 
 rectangle infoOrderContext as "Informações do Pedido" {
@@ -29,17 +33,25 @@ Boundary(paymentBroker, "Gestão de Pagamentos") {
     PayOrder(pay, "Pagamento")
 }
 
-activity(_,orderSystem,apresenta, orderBasket, _,_,)
-activity(_,orderBasket,visualiza, customer, _,_, <--)
-activity(|,orderBasket,visualiza, customerNotLogged, _,_, -->)
-activity(_,customer, faz, pay, no ,mercadoPago,-->)
-activity(|,customerNotLogged, faz, pay, no ,mercadoPago,-->)
+activity(_,orderSystem,apresenta, orderBasket, no,serviceKiosk, <-[#0ea5e9]-)
+activity(_,customer, visualiza pedido no, serviceKiosk,_,_, <-[#blue]-)
+activity(_,customerNotLogged,visualiza pedido no, serviceKiosk, _, _, -[#OrangeRed]->)
+activity(_,customer, faz, pay, _ ,_,-[#blue]->)
+activity(_,customerNotLogged, faz, pay, _ ,_,-[#OrangeRed]->)
+pay --> mercadoPago : no
 activity(_,mercadoPago, confirma, Info: state_FINISHED, no ,webhook,<--)
 activity(_,webhook, atualiza, orderSystem, _,_,<--)
-activity(_,orderSystem, fecha, orderBasket, envia ,preparacao,<--)
+activity(6,orderSystem, fecha, orderBasket, e adiciona, addInQueue,<-[#0ea5e9]-)
+activity(|, orderBasket, envia, orderStatus, para, restaurantPanel, <-[#0ea5e9]-)
+activity(|, orderBasket, envia, PrintOrder: Impressão do número do Pedido, para, serviceKiosk, <-[#0ea5e9]-)
+orderStatus -left- infoTempo
+activity(_,customer, retira impresso do, serviceKiosk,_,_, <-[#blue]-)
+activity(_,customerNotLogged,retira impresso do, serviceKiosk, _, _, -[#OrangeRed]->)
+activity(_, customer, acompanha no, restaurantPanel,_,_, <-[#blue]-)
+activity(_, customerNotLogged, acompanha no, restaurantPanel,_,_, <-[#OrangeRed]-)
 
 infoOrderContext -[#black]up-> infoOrder  
-infoOrder -[#black]right-> orderBasket  
+infoOrder -[#black]down-> orderBasket  
 
 
 @enduml

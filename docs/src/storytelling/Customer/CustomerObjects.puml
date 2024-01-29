@@ -1,0 +1,17 @@
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include <material/textbox>
+!unquoted procedure TextBox($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("TextBox", "$ma_textbox", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/textbox_password>
+!unquoted procedure SensitiveDataTextBox($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("SensitiveDataTextBox", "$ma_textbox_password", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/account_card_details>
+!unquoted procedure AccountCardDetails($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("AccountCardDetails", "$ma_account_card_details", $name, $label, $color, $scale, $note)
+!endprocedure

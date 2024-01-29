@@ -1,4 +1,4 @@
-@startuml DomainStory-ProductManagement-InsertOrUpdateProductWithOptions
+@startuml DomainStory-ProductManagement-InsertOrUpdateSnacks
 title Product Management - Insert or Update  Snacks
 
 !include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml

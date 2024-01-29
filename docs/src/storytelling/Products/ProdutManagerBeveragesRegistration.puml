@@ -1,4 +1,4 @@
-@startuml DomainStory-ProductManagement-InsertOrUpdateProductWithOptions
+@startuml DomainStory-ProductManagement-InsertOrUpdateBeverages
 title Product Management - Insert or Update  Bevarages
 
 !include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml

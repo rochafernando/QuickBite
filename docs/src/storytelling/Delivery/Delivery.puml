@@ -1,0 +1,34 @@
+@startuml Delivery Scenarios - Domain Storytelling - Delivery
+title Delivery Order
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include ../SharedObjects.puml
+
+Person(customer, "Cliente")
+OrderStatus(orderStatusReady,"Status - Pronto")
+OrderStatus(orderStatusFinished,"Status - Finalizado")
+RestaurantPanel(restaurantPanel,"Painel de Pedidos do Restaurante")
+Person(counterAttendant,"Atendente Balcão")
+Package(packageWithProducts,"Pacote com Produtos")
+IdentityRegister(identifier, "número do Pedido")
+OrderBasket(order, "Pedido")
+System(system, "Sistema Preparação e Fluxo do Pedido")
+
+activity(_,customer, visualiza, orderStatusReady, do seu pedido no, restaurantPanel)
+activity(_, customer, apresenta ticket com, identifier, ao, counterAttendant)
+activity(_, counterAttendant, verifica se, identifier, é igual ao do , packageWithProducts, <-[#yellow]-)
+activity(_, counterAttendant, entrega, packageWithProducts, ao, customer, <-[#green]-)
+activity(_,counterAttendant, informa, Info: Pedido Retirado, ao, system, -right->)
+activity(_,system, atualiza, orderStatusFinished, no, order, <--)
+
+
+note as TicketNote
+  Ticket Após a confirmação do pedido
+  , o cliente recebe um ticket 
+  com o número do pedido.
+  1. número do pedido
+  2. produtos
+end note
+
+identifier .. TicketNote
+@enduml

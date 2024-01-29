@@ -19,7 +19,7 @@ Boundary(infoOrderContext,"Informações do Pedido") {
         IdentityRegister(orderId, "ID do Pedido")    
         PaymentValue(paymentValue, "Valor de Pagamento")
         PaymentOrder(paymentOrder, "Qr PIX")
-        Basket(preBasket,"Produtos do Pedido")                    
+        Basket(preBasket,"Produtos do Pedido")
 }
 
 activity(_,orderSystem,apresenta, orderBasket, _,_,)
