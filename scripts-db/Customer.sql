@@ -91,7 +91,6 @@ values ('9c652bba-9cc0-44a9-b3e6-3eec7d43139f', 'Coca Cola', 'O tradicional bebi
 
 --QUERIES
 select *
-
 from Customer with(nolock);
 
 select *
