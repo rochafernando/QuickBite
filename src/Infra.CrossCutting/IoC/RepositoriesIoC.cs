@@ -12,6 +12,7 @@ namespace Infra.CrossCutting.IoC
             services.AddScoped<ICustomerRepository>(_ => new CustomerRepository(configuration.GetSection("SqlServer").Value));
             services.AddScoped<IProductCategoryRepository>(_ => new ProductCategoryRepository(configuration.GetSection("SqlServer").Value));
             services.AddScoped<IProductRepository>(_ => new ProductRepository(configuration.GetSection("SqlServer").Value));
+            services.AddScoped<IOrderRepository>(_ => new OrderRepository(configuration.GetSection("SqlServer").Value));
 
             return services;
         }

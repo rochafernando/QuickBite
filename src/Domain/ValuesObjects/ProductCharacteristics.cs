@@ -42,10 +42,10 @@ namespace Domain.ValuesObjects
                 Errors.Add(new Notification { Code = 40000, Title = ErrorMessage.BadRequest, Message = ErrorMessage.ProductDescriptionIsRequired });
             }
 
-            if (string.IsNullOrEmpty(PathImage))
-            {
-                Errors.Add(new Notification { Code = 40000, Title = ErrorMessage.BadRequest, Message = ErrorMessage.ProductPathImageIsRequired });
-            }
+            //if (string.IsNullOrEmpty(PathImage))
+            //{
+            //    Errors.Add(new Notification { Code = 40000, Title = ErrorMessage.BadRequest, Message = ErrorMessage.ProductPathImageIsRequired });
+            //}
         }
 
         public static ProductCharacteristics Create(string name, string description, string pathImage)

@@ -21,7 +21,23 @@ namespace Application.Handlers.Product
             return productList?.Select(x => new ProductResponse
             {
                 Uid = x.Uid,
-                Name = x.Characteristics?.Name!,
+                Category = new ProductCategoryResponse
+                {
+                    Uid = x.Category!.Uid,
+                    Name = x.Category!.Name,
+                    Description = x.Category!.Description,
+                },
+                Characteristics = new ProductCharacteristicsResponse
+                {
+                    Name = x.Characteristics!.Name,
+                    Description = x.Characteristics!.Description,
+                    PathImage = x.Characteristics!.PathImage
+                },
+                PriceComposition = new PriceCompositionResponse
+                {
+                    UnitPrice = x.PriceComposition!.UnitPrice,
+                    ComboPrice = x.PriceComposition!.ComboPrice,
+                }
                 
             }).ToList();
         }

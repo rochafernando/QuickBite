@@ -12,8 +12,18 @@ namespace Application.Responses.Product
         public Guid Uid { get; set; }
 
         /// <summary>
-        /// Nome do produto
+        /// Categoria do produto
         /// </summary>
-        public string Name { get; set; } = string.Empty;
+        public ProductCategoryResponse? Category { get; set; }
+
+        /// <summary>
+        /// Características do produto
+        /// </summary>
+        public ProductCharacteristicsResponse? Characteristics { get; set; }
+        
+        /// <summary>
+        /// Preço do produto
+        /// </summary>
+        public PriceCompositionResponse? PriceComposition { get; set; }
     }
 }

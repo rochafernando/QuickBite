@@ -1,5 +1,6 @@
 ﻿using Application.Commands.Product;
 using Application.Responses.Product;
+using Application.Utils;
 using Domain.Interfaces.CQS;
 using Domain.Interfaces.Repositories;
 using Domain.Notifications;
@@ -77,7 +78,7 @@ namespace Application.Handlers.Product
 
             await _productRepository.UpdateAsync(product);
 
-            return new ProductResponse { Uid = product.Uid, Name = product.Characteristics!.Name };
+            return BuildProductResponse.CreateRespose(product);
         }
     }
 }

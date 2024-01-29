@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.4" />
+    <PackageReference Include="pix-payload-generator.net" Version="1.0.21" />
   </ItemGroup>
 
   <ItemGroup>

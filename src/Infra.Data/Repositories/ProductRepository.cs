@@ -56,29 +56,52 @@ namespace Infra.Data.Repositories
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var query = @"
+                var query1 = @"
                     select
-                        Id
-                        ,Uid
-                        ,Sellable
-                        ,Enable
-                    from Product with(nolock)
+                        p.Id
+                        ,p.Uid
+                        ,p.Sellable
+                        ,p.Enable
+                        ,c.Id
+                        ,c.Uid
+                        ,c.Name
+                        ,c.Description
+                    from Product p with(nolock)
+                    inner join Category c with(nolock) 
+                        on c.Uid = p.CategoryUid
                     order by 1 desc;
+                ";
+
+                var product = (await connection.QueryAsync<Product, ProductCategory, Product>(query1, (p, c) =>
+                {
+                    p.SetCategory(c);
+                    return p;
+
+                }, splitOn: "Id")).ToList();
+
+                var query2 = @"
                     select
                         Id
                         ,Name
                         ,Description
                     from Product with(nolock)
+                    order by 1 desc;
+                    select
+                        Id
+                        ,UnitPrice
+                        ,ComboPrice
+                    from Product with(nolock)
                     order by 1 desc;"
                 ;
 
-                var result = await connection.QueryMultipleAsync(query);
-                var product = result.Read<Product>().ToList();
+                var result = await connection.QueryMultipleAsync(query2);
                 var characteristics = result.Read<ProductCharacteristics>().ToList();
+                var priceComposition = result.Read<PriceComposition>().ToList();
 
                 for (int i = 0; i < product.Count(); i++)
                 {
                     product[i].SetCharacteristics(characteristics[i]);
+                    product[i].SetPriceComposition(priceComposition[i]);
                 }
                 
                 return product;
@@ -89,36 +112,52 @@ namespace Infra.Data.Repositories
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var query = @"
+                var param = new { uid };
+
+                var query1 = @"
                     select
-                        Id
-                        ,Uid
-                        ,Sellable
-                        ,Enable
-                    from Product with(nolock)
-                    where Uid = @uid;
-                    select
-                        CreatedAt
-                    from Product with(nolock)
-                    where Uid = @uid;
+                        p.Id
+                        ,p.Uid
+                        ,p.Sellable
+                        ,p.Enable
+                        ,c.Id
+                        ,c.Uid
+                        ,c.Name
+                        ,c.Description
+                    from Product p with(nolock)
+                    inner join Category c with(nolock) 
+                        on c.Uid = p.CategoryUid
+                    where p.Uid = @uid;
+                ";
+
+                var product = (await connection.QueryAsync<Product, ProductCategory, Product>(query1, (p, c) =>
+                {
+                    p.SetCategory(c);
+                    return p;
+
+                }, param, splitOn: "Id")).FirstOrDefault();
+
+                var query2 = @"
                     select
                         Id
                         ,Name
                         ,Description
                     from Product with(nolock)
+                    where Uid = @uid;
+                    select
+                        Id
+                        ,UnitPrice
+                        ,ComboPrice
+                    from Product with(nolock)
                     where Uid = @uid;"
                 ;
-
-                var param = new { uid }; 
                 
-                var result = await connection.QueryMultipleAsync(query, param);
-                
-                var product = result.ReadFirstOrDefault<Product>();
-                var auditDate = result.ReadFirstOrDefault<AuditDate>();
+                var result = await connection.QueryMultipleAsync(query2, param);
                 var characteristics = result.ReadFirstOrDefault<ProductCharacteristics>();
+                var priceComposition = result.ReadFirst<PriceComposition>();
 
-                product?.SetAuditDate(auditDate);
                 product?.SetCharacteristics(characteristics);
+                product?.SetPriceComposition(priceComposition);
 
                 return product;
             }

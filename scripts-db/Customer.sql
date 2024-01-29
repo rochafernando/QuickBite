@@ -7,6 +7,7 @@ use QuickBiteDevelopment;
 --drop table Customer;
 --drop table Category;
 --drop table Product;
+--drop table Orders;
 
 create table Customer (
 	Id integer IDENTITY(1,1) PRIMARY KEY,
@@ -14,7 +15,8 @@ create table Customer (
 	Name varchar(200) null,
 	Document varchar(20) null,
 	Email varchar(200) null,
-	CreationDate datetime null
+	CreatedAt datetime null,
+	UpdatedAt datetime null
 );
 
 create table Category (
@@ -22,13 +24,14 @@ create table Category (
 	Uid uniqueidentifier unique,
 	Name varchar(200) null,
 	Description varchar(200) null,
-	CreationDate datetime null
+	CreatedAt datetime null,
+	UpdatedAt datetime null,
 );
 
 
 create table Product (
 	Id integer IDENTITY(1,1) PRIMARY KEY,
-	Uid uniqueidentifier not null,
+	Uid uniqueidentifier unique,
 	CategoryUid uniqueidentifier FOREIGN KEY REFERENCES Category(Uid),
 	Name varchar(200) null,
 	Description varchar(200) null,
@@ -38,7 +41,17 @@ create table Product (
 	ComboPrice numeric(10,2),
 	CreatedAt datetime null,
 	UpdatedAt datetime null,
+);
 
+create table Orders (
+	Id integer IDENTITY(1,1) PRIMARY KEY,
+	Uid uniqueidentifier unique,
+	Customer varchar(max) null,
+	Items varchar(max) null,
+	Status integer null,
+	Value numeric(10,2) null,
+	CreatedAt datetime null,
+	UpdatedAt datetime null,
 );
 
 select *
@@ -49,3 +62,6 @@ from Category with(nolock);
 
 select *
 from Product with(nolock);
+
+select *
+from Orders with(nolock);

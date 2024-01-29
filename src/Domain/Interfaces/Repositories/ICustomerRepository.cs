@@ -8,5 +8,7 @@ namespace Domain.Interfaces.Repositories
         Task UpdateAsync(Customer client);
         Task DeleteAsync(Guid uid);
         Task<Customer?> GetByUidAsync(Guid uid);
+        Task<IEnumerable<Customer>?> GetAllAsync();
+
     }
 }

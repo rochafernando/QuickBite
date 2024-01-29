@@ -1,14 +1,17 @@
 ﻿using Application.Responses;
-using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text.Json;
 
 namespace API.Configurations.Middlewares
 {
+    [ExcludeFromCodeCoverage]
     public class ExceptionsMiddleware
     {
         private const string TitleMessage = "Erro";
         private const string DetailMessage = "Um Erro Inesperado Aconteceu";
+        private const string ContentType = "application/json";
+        private const int ErrorCode = 50000;
 
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionsMiddleware> _logger;
@@ -40,7 +43,7 @@ namespace API.Configurations.Middlewares
                     });
 
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.ContentType = "application/json";
+                context.Response.ContentType = ContentType;
                 await context.Response.WriteAsync(BuildResponse());
             }
         }
@@ -50,7 +53,7 @@ namespace API.Configurations.Middlewares
             return JsonSerializer.Serialize(
                 new ErrorResponse
                 {
-                    Code = 50000,
+                    Code = ErrorCode,
                     Title = TitleMessage,
                     Detail = DetailMessage
                 });

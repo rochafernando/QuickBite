@@ -19,7 +19,7 @@ namespace Infra.Data.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 var query = @"
-                    insert into Customer (Uid, Name, Document, Email, CreationDate) values (@Uid, @Name, @Document, @Email, GETDATE())";
+                    insert into Customer (Uid, Name, Document, Email, CreatedAt) values (@Uid, @Name, @Document, @Email, GETDATE())";
 
                 var param = new { client.Uid, client.Name, client.Document, client.Email };
 
@@ -37,6 +37,24 @@ namespace Infra.Data.Repositories
                 var param = new { uid };
 
                 await connection.ExecuteAsync(query, param);
+            }
+        }
+
+        public async Task<IEnumerable<Customer>?> GetAllAsync()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"
+                    select
+                        Id
+                        ,Uid
+                        ,Name
+                        ,Document
+                        ,Email
+                    from Customer with(nolock) 
+                    order by 1 desc;";
+
+                return await connection.QueryAsync<Customer>(query);
             }
         }
 
@@ -70,6 +88,7 @@ namespace Infra.Data.Repositories
                         set Name = @Name
                             ,Document = @Document
                             ,Email = @Email
+                            ,UpdatedAt = GETDATE()
                     where Uid = @Uid"
                 ;
 

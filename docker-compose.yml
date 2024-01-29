@@ -28,4 +28,14 @@ services:
       - quickbite-network
     depends_on:
       - sqldata
+      - queue
+  
+  rabbitmq:
+    container_name: queue
+    image: rabbitmq:3.9.29-management
+    ports:
+      - 5673:5672
+      - 15673:15672
+    networks:
+      - quickbite-network
     

@@ -20,17 +20,20 @@ namespace API.Controllers.V1
         private readonly ICommandHandler<UpdateCustomerCommand, CustomerResponse> _updateHandler;
         private readonly ICommandHandler<DeleteCustomerCommand> _deleteHandler;
         private readonly IQueryHandler<FindCustomerByUidQuery, CustomerResponse> _findByIdHandler;
+        private readonly IQueryHandler<IEnumerable<CustomerResponse>> _queryHandler;
 
         public CustomerController(
             ICommandHandler<CreateCustomerCommand, CustomerResponse> createHandler,
             ICommandHandler<UpdateCustomerCommand, CustomerResponse> updateHandler,
             ICommandHandler<DeleteCustomerCommand> deleteHandler,
-            IQueryHandler<FindCustomerByUidQuery, CustomerResponse> findByIdHandler)
+            IQueryHandler<FindCustomerByUidQuery, CustomerResponse> findByIdHandler,
+            IQueryHandler<IEnumerable<CustomerResponse>> queryHandler)
         {
             _createHandler = createHandler;
             _updateHandler = updateHandler;
             _deleteHandler = deleteHandler;
             _findByIdHandler = findByIdHandler;
+            _queryHandler = queryHandler;
         }
 
 
@@ -103,6 +106,22 @@ namespace API.Controllers.V1
         public async Task<IActionResult> GetByIdAsync([FromRoute] FindCustomerByUidQuery findClientByUidQuery)
         {
             return Ok(await _findByIdHandler.HandleAsync(findClientByUidQuery));
+        }
+
+        /// <summary>
+        /// Busca todos os clientes.
+        /// </summary>
+        /// <response code="200">Retorna lista de clientes</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="500">Interanl Server Error</response>
+        [HttpGet]
+        [Tags("Cliente")]
+        [SwaggerResponse(StatusCodes.Status200OK, type: typeof(IEnumerable<CustomerResponse>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(IEnumerable<ErrorResponse>))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(ErrorResponse))]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            return Ok(await _queryHandler.HandleAsync());
         }
     }
 }

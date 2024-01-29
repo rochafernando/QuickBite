@@ -19,7 +19,7 @@ namespace Infra.Data.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 var query = @"
-                    insert into Category (Uid, Name, Description, CreationDate) values (@Uid, @Name, @Description, GETDATE())";
+                    insert into Category (Uid, Name, Description, CreatedAt) values (@Uid, @Name, @Description, GETDATE())";
 
                 var param = new { productCategory.Uid, productCategory.Name, productCategory.Description };
 
@@ -85,6 +85,7 @@ namespace Infra.Data.Repositories
                     update Category
                         set Name = @Name
                             ,Description = @Description
+                            ,UpdatedAt = GETDATE()
                     where Uid = @Uid"
                 ;
 

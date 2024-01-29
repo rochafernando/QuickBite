@@ -1,5 +1,6 @@
 ﻿using Application.Commands.Product;
 using Application.Responses.Product;
+using Application.Utils;
 using Domain.Interfaces.CQS;
 using Domain.Interfaces.Repositories;
 using Domain.Notifications;
@@ -44,7 +45,7 @@ namespace Application.Handlers.Product
 
             await _productCategoryRepository.AddAsync(productCategory);
 
-            return new ProductCategoryResponse { Uid = productCategory.Uid, Name = productCategory.Name, Description = productCategory.Description };
+            return BuildProductCategoryResponse.Create(productCategory);
         }
     }
 }

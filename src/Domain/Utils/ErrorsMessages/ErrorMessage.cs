@@ -24,5 +24,10 @@ namespace Domain.Utils.ErrorsMessages
         public static readonly string ProductDescriptionIsRequired = "Product description is required";
         public static readonly string ProductPathImageIsRequired = "Product path image is required";
         public static readonly string ProductNotFound = "Product not found";
+        public static readonly string ProductIsRequired = "Product is required";
+        public static readonly string ProductQuantityIsRequired = "Product quantity is required";
+        public static readonly string InvalidOrder = "Invalid order";
+        public static readonly string OrderNotFound = "Order not found";
+        public static readonly string InvalidOrderStatus = "Invalid order status";
     }
 }

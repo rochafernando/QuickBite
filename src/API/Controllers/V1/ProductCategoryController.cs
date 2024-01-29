@@ -1,4 +1,5 @@
 ﻿using Application.Commands.Product;
+using Application.Queries.Product;
 using Application.Responses;
 using Application.Responses.Product;
 using Asp.Versioning;
@@ -20,17 +21,20 @@ namespace API.Controllers.V1
         private readonly ICommandHandler<UpdateProductCategoryCommand, ProductCategoryResponse> _updateProductCategoryHandler;
         private readonly ICommandHandler<DeleteProductCategoryCommand> _deleteProductCategoryHandler;
         private readonly IQueryHandler<IEnumerable<ProductCategoryResponse>> _getAllProductCategoryHandler;
+        private readonly IQueryHandler<FindProductCategoryByUidQuery, ProductCategoryResponse> _findByUidHandler;
 
         public ProductCategoryController(
             ICommandHandler<CreateProductCategoryCommand, ProductCategoryResponse> createProductCategoryHandler,
             ICommandHandler<UpdateProductCategoryCommand, ProductCategoryResponse> updateProductCategoryHandler,
             ICommandHandler<DeleteProductCategoryCommand> deleteProductCategoryHandler,
-            IQueryHandler<IEnumerable<ProductCategoryResponse>> getAllProductCategoryHandler)
+            IQueryHandler<IEnumerable<ProductCategoryResponse>> getAllProductCategoryHandler,
+            IQueryHandler<FindProductCategoryByUidQuery, ProductCategoryResponse> findByUidHandler)
         {
             _createProductCategoryHandler = createProductCategoryHandler;
             _updateProductCategoryHandler = updateProductCategoryHandler;
             _deleteProductCategoryHandler = deleteProductCategoryHandler;
             _getAllProductCategoryHandler = getAllProductCategoryHandler;
+            _findByUidHandler = findByUidHandler;
         }
 
 
@@ -46,6 +50,24 @@ namespace API.Controllers.V1
         public async Task<IActionResult> GetCategoryAsync()
         {
             return Ok(await _getAllProductCategoryHandler.HandleAsync());
+        }
+
+        /// <summary>
+        /// Busca categoria pelo uid.
+        /// </summary>
+        /// <param name="findProductCategoryByUidQuery"></param>
+        /// <response code="200">Retorna categoria</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="500">Interanl Server Error</response>
+        [HttpGet]
+        [Route("{uid}")]
+        [Tags("Categoria do Produto")]
+        [SwaggerResponse(StatusCodes.Status200OK, type: typeof(ProductCategoryResponse))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, type: typeof(IEnumerable<ErrorResponse>))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, type: typeof(ErrorResponse))]
+        public async Task<IActionResult> GetCategoryAsync([FromRoute] FindProductCategoryByUidQuery findProductCategoryByUidQuery)
+        {
+            return Ok(await _findByUidHandler.HandleAsync(findProductCategoryByUidQuery));
         }
 
         /// <summary>
