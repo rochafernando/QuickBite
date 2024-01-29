@@ -10,6 +10,7 @@ namespace Domain.Interfaces.Repositories
         Task<Order?> GetByUidAsync(Guid uid);
         Task<IEnumerable<Order>?> GetAllAsync();
         Task<string> GetItemsSerializedAsync(Guid uid);
+        Task<string?> GetCustomerSerializedAsync(Guid uid);
 
     }
 }

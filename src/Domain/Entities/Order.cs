@@ -24,6 +24,8 @@ namespace Domain.Entities
             }
         }
 
+        public MoneyOrder? MoneyOrder { get; private set; }
+
         private Order()
         {
             Items = new List<Item>();
@@ -34,7 +36,7 @@ namespace Domain.Entities
             Uid = Guid.NewGuid();
             Customer = customer;
             Items = items;
-            Status = OrderStatus.PendingPayment;
+            Status = OrderStatus.Created;
 
             Validate();
         }
@@ -62,6 +64,8 @@ namespace Domain.Entities
         public void SetStatus(OrderStatus status) => Status = status;
 
         public void SetItems(List<Item> items) => Items = items;
+
+        public void SetMoneyOrder(MoneyOrder moneyOrder) => MoneyOrder = moneyOrder;
 
         public void Update(Customer? customer, List<Item> items, OrderStatus status)
         {

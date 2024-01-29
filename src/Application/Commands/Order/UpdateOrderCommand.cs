@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Commands.Order
 {
@@ -7,6 +8,7 @@ namespace Application.Commands.Order
         /// <summary>
         /// Uid do pedido
         /// </summary>
+        [Required]
         public string Uid { get; set; } = string.Empty;
 
         /// <summary>
@@ -17,11 +19,13 @@ namespace Application.Commands.Order
         /// <summary>
         /// A lista de produtos selecionados.
         /// </summary>
+        [Required]
         public IEnumerable<ItemFromOrderCommand> Items { get; set; } = new List<ItemFromOrderCommand>();
 
         /// <summary>
         /// Status do pedido
         /// </summary>
+        [Required]
         public OrderStatus Status { get; set; }
     }
 }

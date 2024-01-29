@@ -87,6 +87,22 @@ namespace Infra.Data.Repositories
             }
         }
 
+        public async Task<string?> GetCustomerSerializedAsync(Guid uid)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"
+                    select 
+                        o.Customer
+                    from Orders o with(nolock) 
+                    where Uid = @uid;";
+
+                var param = new { uid };
+
+                return await connection.QueryFirstOrDefaultAsync<string>(query, param);
+            }
+        }
+
         public async Task<string> GetItemsSerializedAsync(Guid uid)
         {
             using (var connection = new SqlConnection(_connectionString))

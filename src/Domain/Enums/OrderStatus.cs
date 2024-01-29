@@ -2,8 +2,8 @@
 {
     public enum OrderStatus
     {
-        PendingPayment = 1,
-        Received,
+        Created = 1,
+        Sent,
         InPreparation,
         Done,
         Finished,
