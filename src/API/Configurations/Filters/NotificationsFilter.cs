@@ -1,13 +1,17 @@
 ﻿using Application.Responses;
 using Domain.Notifications;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.SignalR;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 namespace API.Configurations.Filters
 {
+    [ExcludeFromCodeCoverage]
     public class NotificationsFilter : IAsyncResultFilter, IAsyncActionFilter
     {
+        private const int BadRequestStatusCode = 400;
+        private const string ContentType = "application/json";
+
         private readonly NotificationContext _notificationContext;
         private readonly ILogger<NotificationsFilter> _logger;
 
@@ -30,8 +34,8 @@ namespace API.Configurations.Filters
         {
             if (_notificationContext.HasNotifications)
             {
-                context.HttpContext.Response.StatusCode = 400;
-                context.HttpContext.Response.ContentType = "application/json";
+                context.HttpContext.Response.StatusCode = BadRequestStatusCode;
+                context.HttpContext.Response.ContentType = ContentType;
                 await context.HttpContext.Response.WriteAsync(JsonSerializer.Serialize(BuildResponse()));
                 return;
             }

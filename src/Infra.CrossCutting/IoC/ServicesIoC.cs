@@ -1,4 +1,5 @@
-﻿using Domain.Notifications;
+﻿using Application.Utils;
+using Domain.Notifications;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infra.CrossCutting.IoC
@@ -7,7 +8,8 @@ namespace Infra.CrossCutting.IoC
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<NotificationContext>();
+            services.AddSingleton<NotificationContext>();
+            services.AddScoped<OrderUtil>();
 
             return services;
         }

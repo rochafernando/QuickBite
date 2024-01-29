@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace Application.Commands.Customer
 {
@@ -6,8 +7,8 @@ namespace Application.Commands.Customer
     public class DeleteCustomerCommand : Command
     {
         /// <summary>
-        /// Id do cliente.
+        /// Uid do cliente.
         /// </summary>
-        public Guid Id { get; set; }
+        public string Uid { get; set; } = string.Empty;
     }
 }

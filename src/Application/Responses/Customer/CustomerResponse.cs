@@ -7,11 +7,6 @@ namespace Application.Responses.Customer
     public class CustomerResponse : IResult
     {
         /// <summary>
-        /// Id do Cliente
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
         /// Uid do Cliente
         /// </summary>
         public Guid Uid { get; set; }

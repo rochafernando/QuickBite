@@ -1,5 +1,6 @@
 ﻿using Application.Commands.Customer;
 using Application.Responses.Customer;
+using Application.Utils;
 using Domain.Interfaces.CQS;
 using Domain.Interfaces.Repositories;
 using Domain.Notifications;
@@ -44,7 +45,7 @@ namespace Application.Handlers.Customer
 
             await _customerRepository.AddAsync(customer);
 
-            return new CustomerResponse { Id = customer.Id, Uid = customer.Uid, Name = customer.Name, Document = customer.Document, Email = customer.Email };
+            return BuildCustomerResponse.Create(customer);
         }
     }
 }
