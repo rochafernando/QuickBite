@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-﻿namespace Domain.Entities
-{
-    public abstract class Product
-    {
-
-
-=======
 ﻿using Domain.ValuesObjects;
 
 namespace Domain.Entities
@@ -80,6 +72,5 @@ namespace Domain.Entities
         public void SetCharacteristics(ProductCharacteristics? characteristics) => Characteristics = characteristics;
         public void SetPriceComposition(PriceComposition? priceComposition) => PriceComposition = priceComposition;
         public void SetAuditDate(AuditDate? auditDate) => AuditDate = auditDate;
->>>>>>> template
     }
 }
