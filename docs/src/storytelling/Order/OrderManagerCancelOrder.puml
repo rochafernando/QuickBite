@@ -1,0 +1,48 @@
+@startuml  DomainStory-ProductManagement-Cancel
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ../SharedObjects.puml
+!include OrderActors.puml
+!include OrderObjects.puml
+title Order Management - Cancel Order (Cancelamento de Pedido)
+
+Person(customer,"Cliente Identificado", $color=#blue)
+CustomerNonLogin(customerNotLogged,"Cliente não Identificado", $color=#OrangeRed)
+Info(infoOrder,"Informações do Pedido", $color=#black)
+
+System(mercadoPago,"Mercado Pago")
+WebHook(webhook, "CancelamentoPagamento")
+
+Boundary(orderManager,"Gestão de Pedidos") {
+    System(orderSystem,"Sistema de Pedidos")    
+    OrderBasket(orderBasket, "Pedido")        
+    CancelOrderBasket(cancelOrder, "Cancelamento de Pedido")
+    DatabaseRemove(databaseRemove,"Remoção do Pedido")
+    Info(orderRemoved,"Pedido Removido")
+}
+
+Boundary(infoOrderContext,"Informações do Pedido") {
+        IdentityRegister(orderId, "ID do Pedido")    
+        PaymentValue(paymentValue, "Valor de Pagamento")
+        PaymentOrder(paymentOrder, "Qr PIX")
+        Basket(preBasket,"Produtos do Pedido")                    
+}
+
+activity(_,orderSystem,apresenta, orderBasket, _,_,)
+activity(_,orderBasket,visualiza, customer, _,_, <--)
+activity(|,orderBasket,vizualiza, customerNotLogged, _,_,-->)
+activity(3,customer, faz, cancelOrder,_, _, -[#blue]->, -->)
+activity(3,customerNotLogged, faz, cancelOrder, _, _, <-[#OrangeRed]-, <--)
+cancelOrder --> orderSystem : para
+'activity(4,orderSystem, faz,databaseRemove, _, _,)
+activity(4,orderSystem, envia, orderId, para cancelamento, mercadoPago)
+activity(5,mercadoPago, confirma Cancelamento, webhook, para, orderSystem, -->, -->)
+activity(5,orderSystem, faz, databaseRemove, informa, orderRemoved, -->, -->)
+infoOrderContext -[#black]down-> infoOrder  
+infoOrder -[#black]down-> orderBasket  
+orderRemoved --> customerNotLogged : para
+orderRemoved --> customer : para
+
+
+
+
+@enduml

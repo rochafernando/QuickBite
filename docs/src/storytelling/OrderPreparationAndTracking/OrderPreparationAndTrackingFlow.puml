@@ -1,0 +1,96 @@
+@startuml Products Scenarios - Domain Storytelling - Order Preparation and Tracking Flow
+title Order Preparation and Tracking Flow
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include ../SharedObjects.puml
+!include OrderPreparationAndTrackingActors.puml
+!include OrderPreparationAndTrackingObjects.puml
+!include ../Products/ProductObjects.puml
+
+Person(customer,"Cliente")
+Queue(queue,"Fila de Pedidos")
+RemoveFromQueue(removeFromQueue,"Fila de Pedidos")
+OrderStatus(orderStatusReceived,"Status - Recebido")
+OrderStatus(orderStatusPrepare,"Status - Em preparação")
+OrderStatus(orderStatusReady,"Status - Pronto")
+RestaurantPanel(restaurantPanel,"Painel de Pedidos do Restaurante")
+
+
+
+Boundary(preparationFlow, "Fluxo de Atendimento") {
+    OrderBasket(order, "Pedido")
+    System(system, "Sistema Preparação e Fluxo do Pedido")
+    Repeat(repeatStep, "Verificações")    
+    
+}
+
+Boundary(attendantFlow, "Fluxo de Preparação do Pedido") {    
+    PreparationArea(production,"Produção")
+    PackagePrepare(packageOnPrepare,"Pacote com Produtos")
+    Package(packageWithProducts,"Pacote com Produtos")
+    Person(counterAttendant,"Atendente Balcão")
+    
+
+    Boundary(kitchen, "Cozinha") {
+        Person(chef,"Cozinheiro")
+        KitchenPanel(kitchenPanel,"Painel de Preparo - Cozinha")    
+        PrepareMeal(prepareMeal, "Preparar Refeição")
+        Boundary(productionKitchen, "Produção") {
+            Ingredients(ingredients, "Ingredientes")            
+            Recipes(recipe, "Receita")            
+        }
+        Snacks(snack, "Lanches")
+        SideDishes(sideDish, "Acompanhamentos")
+
+        prepareMeal -- snack: poder ser
+        prepareMeal -- sideDish : pode ser
+    }
+
+    Boundary(packageAssembly, "Montagem e Embalagem") {
+        Person(attendant,"Atendente")
+        KitchenPanel(attendantPanel,"Painel de Preparo - Atendimento")
+        Boundary(productAvaible, "produtos disponíveis") {    
+           Combos(combo, "Combos")    
+            Beverages(beverage, "Bebidas")    
+            Desserts(dessert, "Sobremesas")
+            UniqueProducts(uniqueProduct, "Produtos únicos")    
+        }
+    }
+
+}
+
+
+activity(_, system, faz, repeatStep, constantes na,queue, -right->)
+repeatStep -- orderStatusReceived: olha para o status do pedido 
+activity(_, customer, acompanha pedido via, restaurantPanel, com informações do,system, -->)
+activity(_, system, recebe, order, envia para, production)
+activity(|, order, atualiza, orderStatusPrepare, no, restaurantPanel, <--)        
+activity(_, production, envia informações do pedido para, kitchenPanel, _ , _)
+kitchenPanel -- chef: Visualiza Pedido
+activity(_, chef, separa itens, recipe, _, _)
+activity(_, chef, adiciona, ingredients, _, _)
+activity(_, chef, remove, ingredients, _, _)
+activity(_, chef, faz, prepareMeal, entrega ao, attendant, -down->)
+activity(|, production, envia informações do pedido para, attendantPanel, _, _)
+attendantPanel -- attendant: Visualiza Pedido
+activity(_, attendant, separa itens do, combo , coloca no, packageOnPrepare, <--)
+activity(_, attendant, separa , beverage , coloca, packageOnPrepare, <--)
+activity(_, attendant, separa , dessert , coloca, packageOnPrepare, <--)
+activity(_, attendant, separa , uniqueProduct , coloca, packageOnPrepare, <--)
+activity(_, attendant, recebe , snack , coloca, packageOnPrepare, <--)
+activity(_, attendant, recebe , sideDish , coloca, packageOnPrepare,<--)
+activity(_, attendant, finaliza, packageOnPrepare, entrega ao, counterAttendant, <--)
+activity(_, counterAttendant, confere os items e fecha, packageWithProducts, _ , _,<--)
+activity(|, counterAttendant, informa, Info: Pedido Pronto, ao , system,<--)
+activity(_, system, atualiza, orderStatusReady, no, restaurantPanel, <--)
+activity(_, system, remove da, removeFromQueue, _,_, -->)
+activity(_, counterAttendant, aguarda, Timer: tempo de retirada , do, customer, <-- )
+note as FilaNote
+Fila - FIFO para preparação e 
+    entrega dos pedidos
+end note
+
+
+FilaNote .. queue
+
+@enduml

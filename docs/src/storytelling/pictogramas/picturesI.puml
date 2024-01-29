@@ -1,0 +1,37 @@
+@startuml
+!include <material/ice_cream>
+!include <material/image>
+!include <material/image_album>
+!include <material/image_area>
+!include <material/image_area_close>
+!include <material/image_broken>
+!include <material/image_broken_variant>
+!include <material/image_filter>
+!include <material/image_filter_black_white>
+!include <material/image_filter_center_focus>
+!include <material/image_filter_center_focus_weak>
+!include <material/image_filter_drama>
+!include <material/image_filter_frames>
+!include <material/image_filter_hdr>
+!include <material/image_filter_none>
+!include <material/image_filter_tilt_shift>
+!include <material/image_filter_vintage>
+!include <material/image_multiple>
+!include <material/image_off>
+!include <material/import>
+!include <material/inbox>
+!include <material/inbox_arrow_down>
+!include <material/inbox_arrow_up>
+!include <material/incognito>
+!include <material/indent>
+!include <material/infinity>
+!include <material/information>
+!include <material/information_outline>
+!include <material/information_variant>
+!include <material/instagram>
+!include <material/instapaper>
+!include <material/internet_explorer>
+!include <material/invert_colors>
+!include <material/itunes>
+listsprites
+@enduml

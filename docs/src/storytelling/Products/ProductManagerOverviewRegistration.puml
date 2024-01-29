@@ -1,0 +1,21 @@
+@startuml DomainStory-ProductManagement
+title Product Management - General Overview for Product Registration
+
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+Person(admin, "Administrador")
+
+Boundary("productManager","Gestão de Produtos") {    
+    System(sistema, "Gestão de Produtos")
+    activity(_,admin, Inclui ou Altera, Info: Categorias,  no, sistema)    
+    activity(_,admin, Inclui ou Altera, Ingredients: Ingredientes, no , sistema)
+    activity(_,admin, Inclui ou Altera, Snacks: Lanches, no ,sistema)
+    activity(_,admin, Inclui ou Altera, SideDishes: Acompanhamentos, no ,sistema)
+    activity(_,admin, Inclui ou Altera, Beverages: Bebidas, no ,sistema)
+    activity(_,admin, Inclui ou Altera, Desserts: Sobremesas, no ,sistema)
+    activity(_,admin, Inclui ou Altera, UniqueProducts: Produtos Unicos, no ,sistema)
+}
+
+@enduml

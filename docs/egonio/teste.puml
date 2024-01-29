@@ -1,0 +1,100 @@
+@startuml Products Scenarios - Domain Storytelling
+!include https://raw.githubusercontent.com/tmorin/plantuml-libs/master/distribution/domainstorytelling/single.puml
+ 
+Title("Admin interats with Produtcs", "")
+ 
+include('domainstorytelling/Actor/User')
+include('fontawesome-6/Regular/CommentDots')
+include('fontawesome-6/Regular/Image')
+ 
+User('Admin', "Admin")
+User('developer', "developer")
+CommentDots('domain_story_a', 'domain story')
+Image('domain_story_b', 'domain story')
+ 
+domain_expert -r-> domain_story_a : Activity("01", "tells")
+domain_story_a -r-> developer : Activity("", "to")
+ 
+developer -d-> domain_story_b : Activity("02", "draws")
+ 
+domain_expert -d-> domain_story_b : Activity("03", "reads and corrects")
+ 
+@enduml
+
+@startuml
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+'!include ../domainStory.puml
+
+' Actors
+!include <material/store>
+!unquoted procedure Merchant($name, $label = "", $color = "", $scale = "", $note = "")
+    Actor("Merchant", "$ma_store", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/crown>
+!unquoted procedure Customer($name, $label = "", $color = "", $scale = "", $note = "")
+    Actor("Customer", "$ma_crown", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/settings_box>
+!unquoted procedure Process($name, $label = "", $color = "", $scale = "", $note = "")
+    Actor("Process", "$ma_settings_box", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/account_alert>
+!unquoted procedure AccountAlert($name, $label = "", $color = "", $scale = "", $note = "")
+    Actor("AccountAlert", "$ma_account_alert", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+
+'!include <material/account_cash>
+' !unquoted procedure AccountBoxEditOutline($name, $label = "", $color = "", $scale = "", $note = "")
+'     Object("AccountBoxEditOutline", "$ma_account_box_edit_outline", $name, $label, $color, $scale, $note)
+' !endprocedure
+' !unquoted procedure Document($name, $label = "", $color = "", $scale = "", $note = "")
+'     Object("Document", "$documentSprite", $name, $label, $color, $scale, $note)
+' !endprocedure
+
+Boundary(actors) {
+    Merchant(Merchant)
+    Customer(Customer)
+    Process(Process)
+    AccountAlert(AccountAlert)
+    
+}
+@enduml
+
+
+@startuml
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+'!include ../domainStory.puml
+
+Person(customer)
+
+Boundary(counter, cash counter) {
+    Person(cashier)
+    System(ticketSystem, ticket system, )
+
+    activity(_, customer, asks for, Conversation: reservation, cashier)
+    activity(_, cashier, finds available seats in, Document: screen plan, with, ticketSystem)
+    activity(_<, cashier, recommends, Conversation: available seats, to, customer)
+    activity(_, customer, confirms, Conversation: offered seats, cashier)
+    activity(_, cashier, marks seats as reserved in, Document: screen plan, with, ticketSystem)
+    activity(_<, ticketSystem, generates, Info: reservation number, for, cashier)
+    activity(_<, cashier, tells, Conversation: reservation number, to, customer)
+}
+@enduml
+
+@startuml
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+'!include ../domainStory.puml
+
+Boundary(Party) {
+    Person(Alice)
+    Conversation(weather)
+    Person(Bob)
+}
+
+activity(1, Alice, talks about the, weather, with, Bob)
+@enduml

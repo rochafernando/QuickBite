@@ -1,0 +1,27 @@
+@startuml Delivery Scenarios - Domain Storytelling - DeliveryPictogram
+title Delivery Picto
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include ../SharedObjects.puml
+
+Boundary(actors,"Actors Delivery Context") {
+Person(customer, "Cliente")
+Person(counterAttendant,"Atendente Balcão")
+System(system, "Sistema Preparação e Fluxo do Pedido")
+}
+
+Boundary(objects,"Objects Delivery Context") {
+OrderStatus(orderStatusReady,"Status - Pronto")
+OrderStatus(orderStatusFinished,"Status - Finalizado")
+RestaurantPanel(restaurantPanel,"Painel de Pedidos do Restaurante")
+Package(packageWithProducts,"Pacote com Produtos")
+IdentityRegister(identifier, "número do Pedido")
+OrderBasket(order, "Pedido")
+}
+
+
+
+
+
+
+@enduml

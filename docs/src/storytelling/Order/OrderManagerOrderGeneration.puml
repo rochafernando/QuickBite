@@ -1,0 +1,53 @@
+@startuml  DomainStory-ProductManagement-OrderGeneration
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ../SharedObjects.puml
+!include OrderActors.puml
+!include OrderObjects.puml
+title Order Management - Pré Order To Order (Geração de Pedido)
+
+Person(customer,"Cliente", $color=#blue)
+CustomerNonLogin(customerNotLogged,"Cliente não Identificado", $color=#OrangeRed)
+Basket(preBasket,"Produtos do Pedido")
+
+
+Boundary(paymentBroker, "Gestão de Pagamentos") {    
+    System(paymentSystem,"broker de Pagamentos", $color=#green)
+}
+
+
+Boundary(ProductManager, "Gestão de Produtos") {
+    System(productSystem,"Sistema Produtos", $color=#LightCoral)
+    Info(confirmation, "Itens e Customizações")
+}
+
+Boundary(orderManager,"Gestão de Pedidos") {
+    System(orderSystem,"Sistema de Pedidos")
+    WebHook(webhook, "Gerar Pedido")
+    OrderBasket(orderBasket, "Pedido")
+    Info(contentOrder, "Dados do Pedido")
+    Info(contentPaymentOrder, "Dados Pagamento")
+    Database(orderDB, "Dados Pedidos")
+    IdentityRegister(orderId, "ID do Pedido")
+    Calculator(calculator, "Preço")
+    PaymentValue(paymentValue, "Valor de Pagamento")
+    PaymentOrder(paymentOrder, "Ordem de Pagamento")
+
+}
+
+activity(_,customer, confirma, confirmation, _, _, -->)
+activity(|,customerNotLogged, confirma, confirmation, _ , _ ,<--)
+activity(|,confirmation, para, productSystem, _ , _)
+activity(|, productSystem, envia, preBasket, para, webhook,-[#LightCoral]->)
+activity(|, webhook, envia, orderSystem, _ , _)
+activity(_, orderSystem, registra, orderDB, gera , orderId)
+activity(_, orderId, compõe, contentPaymentOrder)
+activity(|, orderSystem, calcula, calculator, registra , orderDB)
+activity(|, calculator, envia,paymentValue, para compor, contentPaymentOrder)
+activity(_, contentPaymentOrder, é enviado para, paymentSystem,_ ,_)
+activity(_, paymentSystem, envia, paymentOrder, compõe ,contentOrder, <-[#green]-)
+activity(|, orderSystem, envia, orderId, compõe ,contentOrder)
+activity(|, orderSystem, envia, preBasket, compõe ,contentOrder)
+activity(_, orderSystem, transforma, contentOrder, em um ,orderBasket)
+activity(_, orderSystem, envia, orderBasket, para, customer, <--)
+activity(_, orderSystem, envia, orderBasket, para, customerNotLogged, -->)
+@enduml

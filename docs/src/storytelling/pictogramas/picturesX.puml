@@ -1,0 +1,21 @@
+@startuml
+!include <material/xamarin>
+!include <material/xamarin_outline>
+!include <material/xaml>
+!include <material/xbox>
+!include <material/xbox_controller>
+!include <material/xbox_controller_battery_alert>
+!include <material/xbox_controller_battery_empty>
+!include <material/xbox_controller_battery_full>
+!include <material/xbox_controller_battery_low>
+!include <material/xbox_controller_battery_medium>
+!include <material/xbox_controller_battery_unknown>
+!include <material/xbox_controller_off>
+!include <material/xda>
+!include <material/xing>
+!include <material/xing_box>
+!include <material/xing_circle>
+!include <material/xml>
+!include <material/xmpp>
+listsprites
+@enduml

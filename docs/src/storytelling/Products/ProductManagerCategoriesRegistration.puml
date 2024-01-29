@@ -1,0 +1,30 @@
+@startuml DomainStory-ProductManagement-InsertOrUpdateCategories
+title Product Management - Insert or Update Categories
+
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+
+Person(admin, "Administrador")
+
+
+Boundary("productManager","Gestão de Produtos") {
+    Categories(categories, "Categorias")
+    System(sistema, "Gestão de Produtos")
+    activity(_,admin, informa, Info:Nome, da, categories)
+    activity(_,admin, informa, Info:Descrição, da, categories)
+    activity(_,categories, Info: Incluir ou Alterar, sistema)
+}
+
+note as CategoriesNote
+    Categorias são usadas para agrupar os 
+    produtos em categorias como Lanches, 
+    Acompanhamentos, Bebidas, etc. 
+
+    A decisão de dividir os produtos em grupos fica 
+    a cargo do administrador, nutricionistas e marketing.
+end note
+categories .. CategoriesNote
+
+@enduml

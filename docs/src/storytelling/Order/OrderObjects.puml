@@ -1,0 +1,36 @@
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include <material/road_variant>
+!unquoted procedure Address($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("Address", "$ma_road_variant", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/cart_off>
+!unquoted procedure CancelOrderBasket($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("OrderBasket", "$ma_cart_off", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/qrcode>
+!unquoted procedure PaymentOrder($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("PaymentOrder", "$ma_qrcode", $name, $label, $color, $scale, $note)
+!endprocedure
+!include <material/qrcode_scan> 
+!unquoted procedure PayOrder($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("PayOrder", "$ma_qrcode_scan", $name, $label, $color, $scale, $note)
+!endprocedure
+!include <material/hook>
+!unquoted procedure WebHook($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("WebHook", "$ma_hook", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/cash_usd>
+!unquoted procedure PaymentValue($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("PaymentValue", "$ma_cash_usd", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/printer>
+!unquoted procedure PrintOrder($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("PrintOrder", "$ma_printer", $name, $label, $color, $scale, $note)
+!endprocedure

@@ -1,0 +1,23 @@
+@startuml
+!include <material/uber>
+!include <material/ubuntu>
+!include <material/ultra_high_definition>
+!include <material/umbraco>
+!include <material/umbrella>
+!include <material/umbrella_outline>
+!include <material/undo>
+!include <material/undo_variant>
+!include <material/unfold_less_horizontal>
+!include <material/unfold_less_vertical>
+!include <material/unfold_more_horizontal>
+!include <material/unfold_more_vertical>
+!include <material/ungroup>
+!include <material/unity>
+!include <material/untappd>
+!include <material/update>
+!include <material/upload>
+!include <material/upload_multiple>
+!include <material/upload_network>
+!include <material/usb>
+listsprites
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+!include <material/jeepney>
+!include <material/jira>
+!include <material/jsfiddle>
+!include <material/json>
+listsprites
+@enduml

@@ -1,0 +1,54 @@
+@startuml DomainStory-ProductManagement-PreOrder
+title Product Management - Pré Order (Customização e Confirmação do Pedido)
+
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ../SharedObjects.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+
+Person(customer, "cliente")
+ServiceKiosk(kiosk, "Totem de autoatendimento")
+
+Boundary("productManager","Gestão de Produtos") {      
+    Products(products, "Produtos Disponiveis")
+    Products(productsInBasket, "Produtos na Cesta")
+    Categories(categories, "Categorias")
+    Combos(combo, "Combos")
+    System(productSystem, "Gestão de Produtos")            
+    Beverages(beverage, "Bebidas")
+    Snacks(snack, "Lanches")
+    SideDishes(sideDish, "Acompanhamentos")
+    CustomizeProduct(customizeProduct, "Customização de produtos")
+    IncludeInBasket(includeInBasket, "Inclusão de item")
+    RemoveFromBasket(removeFromBasket, "Remoção de item")
+    Desserts(dessert, "Sobremesas")
+    Info(info, "itens da cesta")
+}
+
+Boundary(orderManager,"Gestão de Pedidos") {
+    System(orderSystem, "Gestão de Pedidos")
+}
+    activity(_, customer, opera, kiosk, _, _, -->)
+    activity(_,productSystem, exibe lista de, categories, para, kiosk, <-[#red]-)
+    activity(_,kiosk, escolhe a , categories, para receber a lista de produtos, productSystem , -[#4567ff]->)
+    activity(_,productSystem, inclui lista na, combo, de, products, <-[#red]-)    
+    activity(_,productSystem, inclui lista na, sideDish, de, products, <-[#red]-)
+    activity(_,productSystem, inclui lista na, snack, de, products, <-[#red]-)
+    activity(_,productSystem, inclui lista na, beverage, de, products, <-[#red]-)
+    activity(_,productSystem, inclui lista na, dessert, de, products, <-[#red]-)
+    activity(_,products, apresenta lista, kiosk, _, _, <-[#red]-)
+    activity(_,kiosk, seleciona, products, _, _, -[#4567ff]->)
+    activity(|,products, envia para, includeInBasket, _, _, -[#4567ff]->)
+    activity(_,products, faz, customizeProduct, _, _, -[#4567ff]->)
+    activity(|,customizeProduct, envia para, includeInBasket, na cesta, productSystem, -[#4567ff]->)
+    
+    activity(_,kiosk, solicita lista, productsInBasket, para, productSystem, -[#4567ff]-> )
+    activity(_,productSystem, envia lista, productsInBasket, para, kiosk, <-[#red]- )
+    activity(_,kiosk, solicita, removeFromBasket, na cesta, productSystem, -[#4567ff]->)
+    activity(_,kiosk, confima, info, para,productSystem, -[#4567ff]->)
+    activity(|,productSystem, envia, Basket: itens da cesta, para,orderSystem, -[#4567ff]->)
+
+
+
+@enduml

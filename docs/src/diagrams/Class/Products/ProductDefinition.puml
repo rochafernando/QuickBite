@@ -1,0 +1,174 @@
+@startuml Product Management
+
+class Product {
+    - _characteristics: ProductCharacteristics    
+    - _id: int
+    - _enable: bool
+    + Id: int
+    + Characteristics: ProductCharacteristics
+    + category : Catergory
+    + sellable : bool
+    + Enable: bool
+    + priceComposition: PriceComposition
+    + AuditDate: AuditDate      
+}
+
+class Beverage extends Product {
+    
+}
+class SoftDrinks extends Beverage {}
+class AlcoholicBeverage extends Beverage {}
+class CustomBeverage extends Beverage {}
+class Ingredient extends Product {
+    minQuantity: int
+    maxQuantidy: int
+}
+
+
+class UniqueProduct extends Product {
+    - purchasePrice: decimal
+    + PurchasePrice: decimal
+}
+
+class ProductWithOption extends Product {
+    - _ingredients: Ingredient[]
+    + Ingredients: Ingredient[]
+    - _option: UniqueProduct
+    + Option: UniqueProduct
+    + AddOption(option: UniqueProduct)
+}
+
+class StructureCustomizationProductWithOption {
+    - _id: int
+    + Id: int
+
+    + Characteristics: ValueObjects.Characteristics
+    + options: UniqueProduct[]
+}
+
+class Snack extends Product {    
+    - _additionalIngredients: Ingredient[]
+}
+
+
+
+class SnackCombo extends ManufacturedProduct {
+    + snacks: Snack
+    + beverage: Beverage
+    + SideDish: UniqueProduct
+}
+
+class Recipe {
+    + id: int
+    + BasicCharacteristics: BasicCharacteristics    
+    + ingredients: Ingredient[]
+}
+
+Recipe o-- ValueObjects.BasicCharacteristics
+
+class Category {
+    + id: int
+    + name: string
+    + AuditDate: AuditDate
+}
+
+namespace ValueObjects {
+    class BasicCharacteristics {
+         + name: string
+         + description: string
+        }
+    class  ProductCharacteristics extends BasicCharacteristics {                        
+        + pathImage: string        
+    }
+
+    class AuditDate {
+        + CreatedAt: datetime
+        + UpdatedAt: datetime
+    }
+
+    class PriceComposition {
+        + unitPrice: decimal
+        + comboPrice: decimal
+    }
+}
+
+Product "1" -- "1" ValueObjects.ProductCharacteristics
+Product "1" -- "1" ValueObjects.PriceComposition
+Product "1" -- "1" ValueObjects.AuditDate
+
+note as BeverageNote
+ A bebida é uma categoria, o produto bebida em si pode derivar de UniqueProduct
+ , ou ProductWithOption
+end note
+@enduml
+
+'-----------------------------------------------------------------------------------
+
+@startuml - Product Management - Relações de Objetos - Ingredientes
+object Ingredient.12 {
+        
+     Id: 12
+    Name = "Pao brioche"
+    Category = 1
+    sellable = True
+    Enable = True
+    unitPrice = 3.00
+    comboPrice = 3.00
+    CreatedAt = "2024-01-07"      
+}
+
+object Ingredient.13 {
+        
+     Id: 13
+    Name = "Tomate"
+    Category = 1
+    sellable = True
+    Enable = True
+    unitPrice = 1.00
+    comboPrice = 1.00
+    CreatedAt = "2024-01-07"      
+}
+
+object Ingredient.14 {
+        
+     Id: 14
+    Name = "Alface"
+    Category = 1
+    sellable = True
+    Enable = True
+    unitPrice = 1.00
+    comboPrice = 1.00
+    CreatedAt = "2024-01-07"      
+}
+
+object Ingredient.15 {
+        
+     Id: 13
+    Name = "Hamburguer"
+    Category = 1
+    sellable = True
+    Enable = True
+    unitPrice = 3.00
+    comboPrice = 3.00
+    CreatedAt = "2024-01-07"      
+}
+
+@enduml
+
+
+@startuml - Product Management - Relações de Objetos - UniqueProduct
+object Ingredient.21 {
+        
+     Id: 21
+    Name = "Molho Barbecue"
+    Category = 1
+    sellable = True
+    Enable = True
+    unitPrice = 3.00
+    comboPrice = 3.00
+    CreatedAt = "2024-01-07"      
+}
+
+
+
+@enduml

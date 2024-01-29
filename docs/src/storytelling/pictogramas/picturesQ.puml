@@ -1,0 +1,11 @@
+@startuml
+!include <material/qqchat>
+!include <material/qrcode>
+!include <material/qrcode_scan>
+!include <material/quadcopter>
+!include <material/quality_high>
+!include <material/question_mark_circle>
+!include <material/quick_reply>
+!include <material/quicktime>
+listsprites
+@enduml
