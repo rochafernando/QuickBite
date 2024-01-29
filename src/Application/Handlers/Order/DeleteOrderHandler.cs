@@ -1,5 +1,4 @@
 ﻿using Application.Commands.Order;
-using Application.Handlers.Customer;
 using Domain.Interfaces.CQS;
 using Domain.Interfaces.Repositories;
 using Domain.Notifications;
@@ -14,15 +13,18 @@ namespace Application.Handlers.Order
         private readonly IOrderRepository _orderRepository;
         private readonly ILogger<DeleteOrderHandler> _logger;
         private readonly NotificationContext _notificationContext;
+        private readonly IMoneyOrderRepository _moneyOrderRepository;
 
         public DeleteOrderHandler(
             IOrderRepository orderRepository,
             ILogger<DeleteOrderHandler> logger,
-            NotificationContext notificationContext)
+            NotificationContext notificationContext,
+            IMoneyOrderRepository moneyOrderRepository)
         {
             _orderRepository = orderRepository;
             _logger = logger;
             _notificationContext = notificationContext;
+            _moneyOrderRepository = moneyOrderRepository;
         }
 
         public async Task HandleAsync(DeleteOrderCommand command)
@@ -43,6 +45,7 @@ namespace Application.Handlers.Order
                 return;
             }
 
+            await _moneyOrderRepository.DeleteByOrderUidAsync(uid);
             await _orderRepository.DeleteAsync(uid);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Application.Commands.Order;
 using Application.Responses.Order;
 using Application.Utils;
+using Domain.Entities;
 using Domain.Interfaces.CQS;
 using Domain.Interfaces.Repositories;
 using Domain.Notifications;
@@ -16,17 +17,20 @@ namespace Application.Handlers.Order
         private readonly ILogger<UpdateOrderHandler> _logger;
         private readonly NotificationContext _notificationContext;
         private readonly OrderUtil _orderUtil;
+        private readonly IMoneyOrderRepository _moneyOrderRepository;
 
         public UpdateOrderHandler(
             IOrderRepository orderRepository,
             ILogger<UpdateOrderHandler> logger,
             NotificationContext notificationContext,
-            OrderUtil orderUtil)
+            OrderUtil orderUtil,
+            IMoneyOrderRepository moneyOrderRepository)
         {
             _orderRepository = orderRepository;
             _logger = logger;
             _notificationContext = notificationContext;
             _orderUtil = orderUtil;
+            _moneyOrderRepository = moneyOrderRepository;
         }
 
         public async Task<OrderResponse?> HandleAsync(UpdateOrderCommand command)
@@ -55,19 +59,28 @@ namespace Application.Handlers.Order
                 return null;
             }
 
-            var items = await _orderUtil.CreateItemsFromOrder(command.Items.ToList());
+            var items = await _orderUtil.GetItemsFromOrderAsync(command.Items.ToList());
 
             if (items is null && _notificationContext.HasNotifications) return null;
             
-            order.Update(await _orderUtil.CreateCustomerFromOrder(command.Customer), items!, command.Status);
+            order.Update(await _orderUtil.GetCustomerFromOrderAsync(command.Customer), items!, command.Status);
+
+            _notificationContext.AddNotification(order);
+
+            if (_notificationContext.HasNotifications) return null;
+
+            var moneyOrder = MoneyOrder.Create(order.Value, order.Uid);
+            moneyOrder.SetQrCodeBytes(QrCodeManagement.GenerateImage(moneyOrder.QRCode));
 
             _notificationContext.AddNotification(order);
 
             if (_notificationContext.HasNotifications) return null;
 
             await _orderRepository.UpdateAsync(order);
+            await _moneyOrderRepository.DeleteByOrderUidAsync(order.Uid);
+            await _moneyOrderRepository.AddAsync(moneyOrder);
 
-            return OrderUtil.CreateResponse(order, items!);
+            return OrderUtil.CreateResponse(order, items!, moneyOrder);
         }
     }
 }

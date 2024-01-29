@@ -1,4 +1,5 @@
 ﻿using Application.Queries.Order;
+using Application.Responses.Customer;
 using Application.Responses.Order;
 using Application.Utils;
 using Domain.Interfaces.CQS;
@@ -15,15 +16,18 @@ namespace Application.Handlers.Order
         private readonly NotificationContext _notificationContext;
         private readonly ILogger<FindOrderByUidHandler> _logger;
         private readonly IOrderRepository _orderRepository;
+        private readonly IMoneyOrderRepository _moneyOrderRepository;
 
         public FindOrderByUidHandler(
             NotificationContext notificationContext,
             ILogger<FindOrderByUidHandler> logger,
-            IOrderRepository orderRepository)
+            IOrderRepository orderRepository,
+            IMoneyOrderRepository moneyOrderRepository)
         {
             _notificationContext = notificationContext;
             _logger = logger;
             _orderRepository = orderRepository;
+            _moneyOrderRepository = moneyOrderRepository;
         }
 
         public async Task<OrderResponse?> HandleAsync(FindOrderByUidQuery query)
@@ -51,7 +55,12 @@ namespace Application.Handlers.Order
             var itemsSerialized = await _orderRepository.GetItemsSerializedAsync(uid);
             var items = JsonConvert.DeserializeObject<List<ItemResponse>>(itemsSerialized);
 
-            return OrderUtil.CreateResponse(order, items!);
+            var customerSerialized = await _orderRepository.GetCustomerSerializedAsync(uid);
+            var customer = JsonConvert.DeserializeObject<CustomerResponse>(customerSerialized ?? string.Empty);
+
+            var moneyOrder = await _moneyOrderRepository.GetByOrderUidAsync(order.Uid); 
+
+            return OrderUtil.CreateResponse(order, items!, customer, moneyOrder!);
         }
     }
 }

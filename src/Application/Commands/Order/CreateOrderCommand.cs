@@ -1,4 +1,6 @@
-﻿namespace Application.Commands.Order
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Application.Commands.Order
 {
     public class CreateOrderCommand : Command
     {
@@ -10,6 +12,7 @@
         /// <summary>
         /// A lista de produtos selecionados.
         /// </summary>
+        [Required]
         public IEnumerable<ItemFromOrderCommand> Items { get; set; } = new List<ItemFromOrderCommand>();
     }
 }

@@ -1,13 +1,10 @@
 ﻿using Application.Commands.Order;
 using Application.Responses.Order;
-using Application.Responses.Product;
 using Application.Utils;
 using Domain.Entities;
 using Domain.Interfaces.CQS;
 using Domain.Interfaces.Repositories;
 using Domain.Notifications;
-using Domain.Utils.ErrorsMessages;
-using Domain.ValuesObjects;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
@@ -19,17 +16,26 @@ namespace Application.Handlers.Order
         private readonly NotificationContext _notificationContext;
         private readonly IProductRepository _productRepository;
         private readonly IOrderRepository _orderRepository;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly OrderUtil _orderUtil;
+        private readonly IMoneyOrderRepository _moneyOrderRepository;
 
         public CreateOrderHandler(
             ILogger<CreateOrderHandler> logger,
             NotificationContext notificationContext,
             IProductRepository productRepository,
-            IOrderRepository orderRepository)
+            IOrderRepository orderRepository,
+            ICustomerRepository customerRepository,
+            OrderUtil orderUtil,
+            IMoneyOrderRepository moneyOrderRepository)
         {
             _logger = logger;
             _notificationContext = notificationContext;
             _productRepository = productRepository;
             _orderRepository = orderRepository;
+            _customerRepository = customerRepository;
+            _orderUtil = orderUtil;
+            _moneyOrderRepository = moneyOrderRepository;
         }
 
         public async Task<OrderResponse?> HandleAsync(CreateOrderCommand command)
@@ -44,66 +50,27 @@ namespace Application.Handlers.Order
                         MethodName = nameof(HandleAsync)
                     }));
 
-            var items = await BuildItemsFromOrder(command);
+            var items = await _orderUtil.GetItemsFromOrderAsync(command.Items.ToList());
 
             if (items is null && _notificationContext.HasNotifications) return null;
-            
-            var order = Domain.Entities.Order.Create(null, items!);
+
+            var order = Domain.Entities.Order.Create(await _orderUtil.GetCustomerFromOrderAsync(command.Customer), items!);
+
+            _notificationContext.AddNotification(order);
+
+            if (_notificationContext.HasNotifications) return null;
+
+            var moneyOrder = MoneyOrder.Create(order.Value, order.Uid);
+            moneyOrder.SetQrCodeBytes(QrCodeManagement.GenerateImage(moneyOrder.QRCode));
 
             _notificationContext.AddNotification(order);
 
             if (_notificationContext.HasNotifications) return null;
 
             await _orderRepository.AddAsync(order);
+            await _moneyOrderRepository.AddAsync(moneyOrder);
 
-            //var charge = new Cobranca(_chave: order.Uid.ToString())
-            //{
-            //    SolicitacaoPagador = $"Pagamento do Pedido {order.Uid}",
-            //    Valor = new Valor
-            //    {
-            //        Original = order.Value.ToString()
-            //    }
-            //};
-
-            //var payload = charge.ToPayload(GenerateTxId(), new Merchant("QuickBite", "São Paulo"));
-            //var qrCodeString = payload.GenerateStringToQrCode();
-
-            return OrderUtil.CreateResponse(order, items!);
-        }
-
-        private async Task<List<Item>?> BuildItemsFromOrder(CreateOrderCommand command)
-        {
-            var result = new List<Item>();
-
-            foreach (var item in command.Items)
-            {
-                var product = await _productRepository.GetByUidAsync(Guid.Parse(item.Product));
-
-                if (product is null)
-                {
-                    _notificationContext.AddNotification(new Notification { Code = 40000, Title = ErrorMessage.BadRequest, Message = ErrorMessage.ProductNotFound });
-                    return null;
-                }
-
-                result.Add(Item.Create(product, item.Quantity));
-            }
-
-            return result;
-        }
-
-        private static string GenerateTxId()
-        {
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            //TXID deve ter no mínimo 26 caracteres e no máximo 35 caracteres.
-            var txId = new char[35];
-            var random = new Random();
-
-            for (int i = 0; i < txId.Length; i++)
-            {
-                txId[i] = chars[random.Next(chars.Length)];
-            }
-
-            return new String(txId);
+            return OrderUtil.CreateResponse(order, items!, moneyOrder);
         }
     }
 }
