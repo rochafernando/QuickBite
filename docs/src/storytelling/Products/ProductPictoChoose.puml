@@ -1,0 +1,36 @@
+@startuml
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ../SharedObjects.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+Boundary("Actors", "Actors") {
+    Person(cliente, "Cliente")
+    Person(admin, "Administrador")
+    System(productSystem, "Gestão de Produtos")
+    System(orderSystem, "Gestão de Pedidos")
+}
+
+Boundary("ProductObjects", "Action Objects - Product Context") {
+    Products("Product", "Produto")
+    Categories("Category", "Categorias")
+    Snacks("Snack", "Lanches")
+    Combos("Combo", "Combos")
+    Ingredients("Ingredient", "Ingredientes")
+    Beverages("Beverage", "Bebidas")
+    Recipes("Recipe", "Receitas")
+    SideDishes("SideDish", "Acompanhamentos")
+    Desserts("Dessert", "Sobremesas")
+    UniqueProducts("UniqueProduct", "Produtos únicos")
+    Photos("Photo", "Imagens dos produtos")
+    MarkRemovableItem("MarkRemovableItem", "Itens removíveis")
+    MarkPlusItem("MarkPlusItem", "Itens adicionais")
+    MarketBeverage("MarketBeverage", "Bebidas de mercado")
+    CraftBeverage("CraftBeverage", "Bebidas artesanais")
+    CustomizeProduct("CustomizeProduct", "Personalização de produtos")
+    IncludeInBasket("IncludeInBasket", "Inclusão de Item")
+    RemoveFromBasket("RemoveFromBasket", "Remoção de Item")
+    Basket(basket, "cesta-prépedido")
+}
+
+@enduml

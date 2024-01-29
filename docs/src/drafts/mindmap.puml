@@ -1,0 +1,49 @@
+@startmindmap
+* QuickBite
+** Pedidos
+*** Formação do Pedido
+**** Contemplar a lista do Produtos
+**** Solicitação da Orderm de Pagamento
+**** Identificação do Pedido (Cliente)
+**** TALVEZ TENHA UM CLIENTE
+*** Pensar aonde colocar o status pedido
+*** Confirmação do Pagamento 
+****_  Escaminha pra esteira do Pedido
+
+
+** Pagamento
+*** Gerar Ordem de Pagamento
+****_ Só gero a ordem de pagamento, com um identificador de pedido
+*** Confirma a Ordem de Pagamento
+** Acompanhamento & Entrega
+*** Esteira do Pedido
+****_ Depois confirmação de Pagamento - Recebido (MARCA O PEDIDO COMO RECEBIDO)
+****_ Em preparação - Envia pra cozinha o Pedido de Produção ( Contém Id do Pedido, Produtos e Quantidade)
+****_ Depois de Produzido, MARCAR O PEDIDO COMO "PRONTO".
+****_ Depois de Retirado, MARCAR O PEDIDO COMO "Finalizado"
+***_ PENSAR COMO VAI SER ESSA AçÂO DA RETIRADA DO PEDIDO? (Pode ser um botão de retirada, que vai marcar o pedido como retirado)
+
+
+** Gerenciar Clientes
+*** Cadastro de Clientes
+*** ID do Cliente no Pedido
+*** Histórico de Pedidos
+*** Campanhas de Marketing
+**** Mais Pedidos
+**** Promoções
+**** Descontos
+
+
+*** Cadastro de Clientes
+-- Gerenciar Produtos
+--- Produto
+----_ Lanche
+----_ Bebida
+----_ Lanche
+----_ Combo
+----_ Acompanhamento
+
+--- Categoria
+--- Receita de Produtos
+
+@endmindmap

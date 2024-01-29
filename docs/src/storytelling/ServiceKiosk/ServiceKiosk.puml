@@ -1,0 +1,32 @@
+@startuml ServiceKiosk
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+title Totem de Autoatendimento
+
+!include ../SharedObjects.puml
+!include ../SharedActors.puml
+
+
+ServiceKiosk(servicekiosk,"Totem Autoatendimento")
+
+Boundary(productsContext,"Gestão de Produtos") {
+    Info(catalog,"Catalogo de produtos")
+    Info(preOrder,"Customização de Produtos e Pré Pedido")    
+}
+
+Boundary(ordersContext,"Gestão de Pedidos") {
+    Info(orderGen,"Geração do Pedido")
+    Info(orderInfo,"Informações do Pedido")
+    Info(orderPayment, "Pagamento do Pedido")
+}
+
+Boundary(customerContext,"Gestão de Clientes") {
+    Info(customer,"Cadastro de Clientes")
+    Info(customerAuth,"Identificação de Clientes")
+}
+
+servicekiosk --> productsContext : opera
+servicekiosk --> ordersContext : opera
+servicekiosk --> customerContext : opera
+
+
+@enduml

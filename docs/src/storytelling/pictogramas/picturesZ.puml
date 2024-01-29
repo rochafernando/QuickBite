@@ -1,0 +1,4 @@
+@startuml
+!include <material/zip_box>
+listsprites
+@enduml

@@ -1,0 +1,104 @@
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+
+!include <material/nutrition> 
+!unquoted procedure Ingredients($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Ingredients", "$ma_nutrition", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/food>
+!unquoted procedure Combos($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Combo", "$ma_food", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/library_books>
+!unquoted procedure Recipes($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Combo", "$ma_library_books", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/hamburger>
+!unquoted procedure Snacks($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Snacks", "$ma_hamburger", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/beer>
+!unquoted procedure Beverages($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Beverages", "$ma_beer", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/cup>
+!unquoted procedure MarketBeverage($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("MarketBeverage", "$ma_cup", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/glass_mug>
+!unquoted procedure CraftBeverage($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("CraftBeverage", "$ma_glass_mug", $name, $label, $color, $scale, $note)     
+!endprocedure
+
+
+
+!include <material/food_variant>
+!unquoted procedure SideDishes($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("SideDishes", "$ma_food_variant", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/ice_cream> 
+!unquoted procedure Desserts($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Desserts", "$ma_ice_cream", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/image_area>
+!unquoted procedure Photos($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Photo", "$ma_image_area", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/pot_mix>
+!unquoted procedure UniqueProducts($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("UniqueProduct", "$ma_pot_mix", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/currency_usd>
+!unquoted procedure Price($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Price", "$ma_currency_usd", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/minus>
+!unquoted procedure MarkRemovableItem($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("MarkRemovableItem", "$ma_minus", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/plus>
+!unquoted procedure MarkPlusItem($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("MarkPlusItem", "$ma_plus", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/label>
+!unquoted procedure Categories($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Categories", "$ma_label", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/format_list_bulleted_type>
+!unquoted procedure CustomizeProduct($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("CustomizeProduct", "$ma_format_list_bulleted_type", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/basket_fill>
+!unquoted procedure IncludeInBasket($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("IncludeInBasket", "$ma_basket_fill", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/basket_unfill> 
+!unquoted procedure RemoveFromBasket($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("RemoveFromBasket", "$ma_basket_unfill", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/food_fork_drink>
+!unquoted procedure Products($name, $label = "", $color = "", $scale = "", $note = "")
+     Object("Products", "$ma_food_fork_drink", $name, $label, $color, $scale, $note)
+!endprocedure
+

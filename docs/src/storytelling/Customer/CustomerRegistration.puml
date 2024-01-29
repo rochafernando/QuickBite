@@ -1,0 +1,39 @@
+@startuml Customer Scenarios - Domain Storytelling - Customer Registration
+title Customer Registration
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include ../SharedObjects.puml
+!include ../SharedActors.puml
+!include CustomerObjects.puml
+!include CustomerActors.puml
+
+Person(customer,"Cliente", $color=#blue)
+ServiceKiosk(servicekiosk,"Totem Autoatendimento", $color=#dc2626)
+AccountCardDetails(accountCardDetails,"Dados do Cliente")
+
+Boundary(customerSystemContexted,"Sistema de Gestão de Clientes") {
+    System(customerSystem,"Sistema de Gestão de Clientes")
+    
+    Database(customerDatabase,"Banco de Dados de Clientes")
+    Info(ok,"Registro Efetuado")
+    Info(error, "Já possui cadastro")
+    Info(cpf,"CPF")
+
+}
+
+activity(_,customer, seleciona, Info: "Seleciona a opção de cadastro", no, servicekiosk, -[#blue]->)
+activity(_,servicekiosk, exibe, Info: "Exibe tela de cadastro", ao, customer, <-[#dc2626]-)
+activity(_,customer, preenche, SensitiveDataTextBox: "Preenche CPF", no, servicekiosk,-[#blue]->)
+activity(|,customer, preenche, SensitiveDataTextBox: "Prenche Nome", no, servicekiosk,-[#blue]->)
+activity(|,customer, preenche, TextBox: "Prenche Email", no, servicekiosk,-[#blue]->)
+activity(_, servicekiosk, agrupa, accountCardDetails, envia para, customerSystem, -[#dc2626]->)
+activity(_, customerSystem, verifica, cpf  ,no,customerDatabase)
+activity(_, customerDatabase, informa, error, para, servicekiosk)
+activity(_,servicekiosk, exibe, error, ao, customer, <-[#dc2626]-)
+activity(_, customerSystem, registra, customerDatabase, _,_ )
+activity(_, customerSystem, informa, ok, para,servicekiosk )
+activity(_, servicekiosk, exibe, ok, ao, customer,<-[#dc2626]-)
+
+
+
+@enduml

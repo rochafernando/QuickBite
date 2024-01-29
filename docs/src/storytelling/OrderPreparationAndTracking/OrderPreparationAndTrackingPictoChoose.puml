@@ -1,0 +1,41 @@
+@startuml
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ../SharedObjects.puml
+!include OrderPreparationAndTrackingActors.puml
+!include OrderPreparationAndTrackingObjects.puml
+!include ../Products/ProductObjects.puml
+
+Boundary(orderTrackingActors, "Order Tracking Actors") {
+ 
+   PreparationArea(production,"Produção")
+   Person(attendant,"Atendente")
+   Person(grillCook,"Cozinheiro")
+   Person(customer,"Cliente")
+}
+
+Boundary(orderTrackingObjects, "Order Tracking Objects") {
+   Queue(queue,"Fila")
+   RemoveFromQueue(removeFromQueue,"Remover da Fila")
+   KitchenPanel(kitchenPanel,"Painel de Preparo")
+   OrderStatus(orderStatus,"Status do Pedido")
+   RestaurantPanel(restaurant,"Painel de Pedidos do Restaurante")
+   Repeat(repeatStep,"Repetição de Etapas")
+   OrderBasket(order, "Pedido")
+   PrepareMeal(prepareMeal, "Preparar Refeição")
+   PackagePrepare(packageOnPrepare,"Pacote em Preparação")
+   Package(packageWithProducts,"Pacote com Produtos")
+   Timer(timer,"Temporizador")
+}
+
+Boundary(productObjects, "Product Objects") {
+    Snacks("Snack", "Lanches")
+    Combos("Combo", "Combos")
+    Ingredients("Ingredient", "Ingredientes")
+    Beverages("Beverage", "Bebidas")
+    SideDishes("SideDish", "Acompanhamentos")
+    Desserts("Dessert", "Sobremesas")
+    UniqueProducts("UniqueProduct", "Produtos únicos")
+    Recipes("Recipe", "Receitas")
+}
+
+@enduml

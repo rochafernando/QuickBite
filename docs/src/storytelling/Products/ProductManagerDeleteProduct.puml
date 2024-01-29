@@ -1,0 +1,34 @@
+@startuml DomainStory-ProductManagement-DeleteProduct
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+title Product Management - Delete Product
+
+!include ../SharedActors.puml
+!include ../SharedObjects.puml
+
+!include ProductActors.puml
+!include ProductObjects.puml
+
+
+
+Person(admin, "Administrador", $color=#blue)
+
+Boundary("productManager","Gestão de Produtos") {            
+    System(sistema, "Gestão de Produtos", $color=#b91c1c)
+    IdentityRegister(productID, "ID do Produto")
+    Database(productDB, "Base de Dados de Produtos", $color=#fde047)                
+    Info(ok, "Produto Excluído")
+    Info(erro,"Verifique as referências em outros Produtos")
+}
+
+activity(_, admin, informa, productID, para excluir, sistema, -[#blue]->)
+activity(_, sistema, verifica, productID, relacionamentos, productDB, -[#b91c1c]left->)
+activity(|, sistema, valida, productID, se existe, productDB, -[#b91c1c]->)
+activity(_, productDB, executa,DatabaseRemove: remoção registro,_,_, -[#fde047]->)
+activity(|, productDB, informa, ok, para, sistema, <-[#fde047]-)
+activity(|, sistema, informa, ok, para, admin, <-[#b91c1c]-)
+activity(_, productDB, informa, erro, para, sistema, <-[#fde047]-)
+activity(|, sistema, informa, erro, para, admin, <-[#b91c1c]-)
+
+
+
+@enduml

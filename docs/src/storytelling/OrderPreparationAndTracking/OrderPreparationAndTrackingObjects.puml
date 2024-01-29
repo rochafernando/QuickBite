@@ -1,0 +1,32 @@
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+
+!include <material/stove>
+!unquoted procedure PreparationArea($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("PreparationArea", "$ma_stove", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/view_day>
+!unquoted procedure KitchenPanel($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("KitchenPanel", "$ma_view_day", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/tumblr_reblog>
+!unquoted procedure Repeat($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("Repeat", "$ma_tumblr_reblog", $name, $label, $color, $scale, $note)
+!endprocedure
+
+
+!include <material/silverware_spoon>
+!unquoted procedure PrepareMeal($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("Spoon", "$ma_silverware_spoon", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/package_variant>
+!unquoted procedure PackagePrepare($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("PackagePrepare", "$ma_package_variant", $name, $label, $color, $scale, $note)
+!endprocedure
+
+!include <material/timer>
+!unquoted procedure Timer($name, $label = "", $color = "", $scale = "", $note = "")
+    Object("Timer", "$ma_timer", $name, $label, $color, $scale, $note)
+!endprocedure

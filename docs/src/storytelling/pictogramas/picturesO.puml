@@ -1,0 +1,27 @@
+@startuml
+!include <material/oar>
+!include <material/octagon>
+!include <material/octagon_outline>
+!include <material/octagram>
+!include <material/octagram_outline>
+!include <material/odnoklassniki>
+!include <material/office>
+!include <material/oil>
+!include <material/oil_temperature>
+!include <material/omega>
+!include <material/onedrive>
+!include <material/onenote>
+!include <material/opacity>
+!include <material/openid>
+!include <material/open_in_app>
+!include <material/open_in_new>
+!include <material/opera>
+!include <material/orbit>
+!include <material/ornament>
+!include <material/ornament_variant>
+!include <material/outbox>
+!include <material/outdent>
+!include <material/owl>
+
+listsprites
+@enduml

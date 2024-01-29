@@ -1,0 +1,23 @@
+@startuml
+!include <material/karate>
+!include <material/keg>
+!include <material/kettle>
+!include <material/key>
+!include <material/keyboard>
+!include <material/keyboard_backspace>
+!include <material/keyboard_caps>
+!include <material/keyboard_close>
+!include <material/keyboard_off>
+!include <material/keyboard_return>
+!include <material/keyboard_tab>
+!include <material/keyboard_variant>
+!include <material/key_change>
+!include <material/key_minus>
+!include <material/key_plus>
+!include <material/key_remove>
+!include <material/key_variant>
+!include <material/kickstarter>
+!include <material/kodi>
+
+listsprites
+@enduml

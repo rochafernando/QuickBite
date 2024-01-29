@@ -1,0 +1,25 @@
+@startuml DomainStory-ProductManagement-InsertOrUpdateDesserts
+title Product Management - Insert or Update  Desserts
+
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+
+Person(admin, "Administrador")
+
+Boundary("productManager","Gestão de Produtos") {    
+    Desserts(sobremesas, "Sobremesas")        
+    System(sistema, "Gestão de Produtos")        
+    Categories(categoria, "Categoria")
+    
+    activity(_,sistema, Informa a Lista de, categoria, para, admin, <--, <--)
+    activity(_,admin, seleciona 1, categoria, do, sobremesas)    
+    activity(_,admin, informa, Info:Nome e Descrição, do, sobremesas)   
+    activity(_,admin, informa, Info:tabela nutricional, do, sobremesas)    
+    activity(_,admin, informa, Price:Preço Unitário e Preço Combo, do, sobremesas)
+    activity(_,admin, faz upload, Photos: Imagem do Produto, no, sobremesas)
+    activity(_, sobremesas, Incluir ou Alterar, sistema)               
+}
+
+@enduml

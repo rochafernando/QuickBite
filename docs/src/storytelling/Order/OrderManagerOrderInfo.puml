@@ -1,0 +1,33 @@
+@startuml  DomainStory-ProductManagement-OrderInfo
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ../SharedObjects.puml
+!include OrderActors.puml
+!include OrderObjects.puml
+title Order Management - Apresentação do Pedido
+
+Person(customer,"Cliente", $color=#blue)
+CustomerNonLogin(customerNotLogged,"Cliente não Identificado", $color=#OrangeRed)
+Info(infoOrder,"Informações do Pedido", $color=#black)
+
+
+Boundary(orderManager,"Gestão de Pedidos") {
+    System(orderSystem,"Sistema de Pedidos")    
+    OrderBasket(orderBasket, "Pedido")            
+}
+
+Boundary(infoOrderContext,"Informações do Pedido") {
+        IdentityRegister(orderId, "ID do Pedido")    
+        PaymentValue(paymentValue, "Valor de Pagamento")
+        PaymentOrder(paymentOrder, "Qr PIX")
+        Basket(preBasket,"Produtos do Pedido")
+}
+
+activity(_,orderSystem,apresenta, orderBasket, _,_,)
+activity(_,orderBasket,visualiza, customer, _,_, <--)
+activity(|,orderBasket,vizualiza, customerNotLogged, _,_,-->)
+
+infoOrderContext -[#black]up-> infoOrder  
+infoOrder -[#black]right-> orderBasket  
+
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml DomainStory-ProductManagement-InsertOrUpdateIngredients
+title Product Management - Insert or Update Ingredients
+
+!include https://raw.githubusercontent.com/johthor/DomainStory-PlantUML/main/domainStory.puml
+!include ProductActors.puml
+!include ProductObjects.puml
+
+Person(admin, "Administrador")
+
+
+Boundary("productManager","Gestão de Produtos") {    
+    Ingredients(ingredient, "Ingredientes")
+    System(sistema, "Gestão de Produtos")        
+    activity(_,admin, informa, Info:Nome e Descrição, do, ingredient)   
+    activity(_,admin, faz upload, Photos: Imagem do Produto, no, ingredient)   
+    activity(_,ingredient, Incluir ou Alterar, sistema)         
+}
+
+note as RecipesNote #LightYellow
+    Ingredientes são usados para compor 
+    as receitas de lanches, acompanhamentos, 
+    sobremesas e bebidas. 
+
+    O são inseridos acordo  com os lanches a 
+    serem vendidos. 
+    Para a montagem dos demais produtos 
+    e visualição na cozinha do que é composto cada
+    lanche e escolhas dos clientes.
+end note
+@enduml

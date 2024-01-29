@@ -1,0 +1,12 @@
+@startuml
+!include <material/yammer>
+!include <material/yeast>
+!include <material/yelp>
+!include <material/yin_yang>
+!include <material/youtube>
+!include <material/youtube_creator_studio>
+!include <material/youtube_gaming>
+!include <material/youtube_play>
+!include <material/youtube_tv>
+listsprites
+@enduml
