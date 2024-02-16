@@ -52,15 +52,9 @@ namespace Application.Handlers.Order
 
             if (order == null) return null;
 
-            var itemsSerialized = await _orderRepository.GetItemsSerializedAsync(uid);
-            var items = JsonConvert.DeserializeObject<List<ItemResponse>>(itemsSerialized);
-
-            var customerSerialized = await _orderRepository.GetCustomerSerializedAsync(uid);
-            var customer = JsonConvert.DeserializeObject<CustomerResponse>(customerSerialized ?? string.Empty);
-
             var moneyOrder = await _moneyOrderRepository.GetByOrderUidAsync(order.Uid); 
 
-            return OrderUtil.CreateResponse(order, items!, customer, moneyOrder!);
+            return OrderUtil.CreateResponse(order, moneyOrder!);
         }
     }
 }

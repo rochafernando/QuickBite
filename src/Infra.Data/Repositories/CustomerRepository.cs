@@ -1,101 +1,42 @@
-﻿using Dapper;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Microsoft.Data.SqlClient;
+using Infra.Data.Services;
+using MongoDB.Driver;
 
 namespace Infra.Data.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly string _connectionString;
+        private readonly IMongoCollection<Customer> _customerCollection;
 
-        public CustomerRepository(string connectionString)
+        public CustomerRepository(MongoService mongoService)
         {
-            _connectionString = connectionString;
+            _customerCollection = mongoService.Database.GetCollection<Customer>(nameof(Customer));
         }
 
         public async Task AddAsync(Customer client)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    insert into Customer (Uid, Name, Document, Email, CreatedAt) values (@Uid, @Name, @Document, @Email, GETDATE())";
-
-                var param = new { client.Uid, client.Name, client.Document, client.Email };
-
-                await connection.ExecuteAsync(query, param);
-            }
+            await _customerCollection.InsertOneAsync(client);
         }
 
         public async Task DeleteAsync(Guid uid)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    delete from Customer where Uid = @uid";
-
-                var param = new { uid };
-
-                await connection.ExecuteAsync(query, param);
-            }
+            await _customerCollection.DeleteOneAsync(x => x.Uid == uid);
         }
 
         public async Task<IEnumerable<Customer>?> GetAllAsync()
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    select
-                        Id
-                        ,Uid
-                        ,Name
-                        ,Document
-                        ,Email
-                    from Customer with(nolock) 
-                    order by 1 desc;";
-
-                return await connection.QueryAsync<Customer>(query);
-            }
+            return await _customerCollection.Find(x => true).ToListAsync();
         }
 
         public async Task<Customer?> GetByUidAsync(Guid uid)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    select
-                        Id
-                        ,Uid
-                        ,Name
-                        ,Document
-                        ,Email
-                    from Customer with(nolock) 
-                    where Uid = @uid"
-                ;
-
-                var param = new { uid };
-
-                return await connection.QueryFirstOrDefaultAsync<Customer>(query, param);
-            }
+            return await _customerCollection.Find(x => x.Uid == uid).FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync(Customer client)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    update Customer
-                        set Name = @Name
-                            ,Document = @Document
-                            ,Email = @Email
-                            ,UpdatedAt = GETDATE()
-                    where Uid = @Uid"
-                ;
-
-                var param = new { client.Uid, client.Name, client.Document, client.Email };
-
-                await connection.ExecuteAsync(query, param);
-            }
+            await _customerCollection.ReplaceOneAsync(x => x.Uid == client.Uid, client);
         }
     }
 }

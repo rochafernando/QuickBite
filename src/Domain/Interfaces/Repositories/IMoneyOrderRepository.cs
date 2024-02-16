@@ -9,6 +9,6 @@ namespace Domain.Interfaces.Repositories
         Task<MoneyOrder?> GetByUidAsync(Guid uid);
         Task<MoneyOrder?> GetByOrderUidAsync(Guid uid);
         Task DeleteByOrderUidAsync(Guid uid);
-        Task<IEnumerable<Order>?> GetAllAsync();
+        Task<IEnumerable<MoneyOrder>?> GetAllAsync();
     }
 }

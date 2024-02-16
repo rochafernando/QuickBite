@@ -59,6 +59,31 @@ namespace Application.Utils
             return null;
         }
 
+        public static OrderResponse CreateResponse(Order order, MoneyOrder moneyOrder)
+        {
+            return new OrderResponse
+            {
+                Uid = order.Uid,
+                Value = order.Value,
+                Status = Domain.Enums.OrderStatus.Created,
+                Items = order.Items.Select(i => new ItemResponse
+                {
+                    Product = BuildProductResponse.CreateRespose(i.Product!),
+                    Quantity = i.Quantity
+                }),
+                Customer = BuildCustomerResponse.Create(order.Customer),
+                MoneyOrder = new MoneyOrderResponse
+                {
+                    Uid = moneyOrder.Uid,
+                    TxId = moneyOrder.TxId,
+                    QRCode = moneyOrder.QRCode,
+                    QRCodeBytes = moneyOrder.QRCodeBytes,
+                    Status = moneyOrder.Status,
+                    Value = moneyOrder.Value
+                }
+            };
+        }
+
         public static OrderResponse CreateResponse(Order order, List<Item> items, MoneyOrder moneyOrder)
         {
             return new OrderResponse
