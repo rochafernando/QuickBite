@@ -1,9 +1,8 @@
-﻿using Domain.Configurations;
-using Domain.Interfaces.Configurations;
+﻿using Infra.Data.Configurations;
+using Infra.Data.Interfaces;
 using Infra.Data.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Infra.CrossCutting.IoC
 {
@@ -11,8 +10,9 @@ namespace Infra.CrossCutting.IoC
     {
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IDatabaseConfiguration>(x => x.GetRequiredService<IOptions<DatabaseConfiguration>>().Value);
-            services.AddSingleton<MongoService>();
+            var mongoDbConfiguration = configuration.GetSection("Mongo").Get<MongoDbConfiguration>();
+            services.AddSingleton(mongoDbConfiguration!);
+            services.AddSingleton<IMongoDbService, MongoDbService>();
             return services;
         }
     }

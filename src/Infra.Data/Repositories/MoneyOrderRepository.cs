@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Infra.Data.Services;
+using Infra.Data.Interfaces;
 using MongoDB.Driver;
 
 namespace Infra.Data.Repositories
@@ -9,7 +9,7 @@ namespace Infra.Data.Repositories
     {
         private readonly IMongoCollection<MoneyOrder> _moneyOrderCollection;
 
-        public MoneyOrderRepository(MongoService mongoService)
+        public MoneyOrderRepository(IMongoDbService mongoService)
         {
             _moneyOrderCollection = mongoService.Database.GetCollection<MoneyOrder>(nameof(MoneyOrder));
         }

@@ -3,7 +3,6 @@ using API.Configurations.Middlewares;
 using API.Configurations.Swagger;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
-using Domain.Configurations;
 using Domain.Interfaces.CQS;
 using Infra.CrossCutting.IoC;
 using Microsoft.Extensions.Options;
@@ -11,8 +10,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.Configure<DatabaseConfiguration>(builder.Configuration.GetSection("Mongo"));
 
 // Add services to the container.
 builder.Services.AddCommandHandler(typeof(ICommandHandler<,>));

@@ -1,13 +1,16 @@
-﻿using Domain.Interfaces.Configurations;
+﻿using Infra.Data.Configurations;
+using Infra.Data.Interfaces;
 using MongoDB.Driver;
 
 namespace Infra.Data.Services
 {
-    public class MongoService
+    public sealed class MongoDbService : IMongoDbService
     {
+        private const string ExceptionErrorMessage = "Erro para se conectar no MongoDb";
+
         public IMongoDatabase Database { get; }
 
-        public MongoService(IDatabaseConfiguration databaseConfiguration)
+        public MongoDbService(MongoDbConfiguration databaseConfiguration)
         {
             try
             {
@@ -16,7 +19,7 @@ namespace Infra.Data.Services
             }
             catch (Exception ex)
             {
-                throw new MongoException("", ex);
+                throw new MongoException(ExceptionErrorMessage, ex);
             }
         }
     }
