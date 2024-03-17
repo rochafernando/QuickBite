@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Infra.Data.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Infra.Data.Repositories
