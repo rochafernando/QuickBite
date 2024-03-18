@@ -11,6 +11,8 @@ namespace Domain.Entities
 
         public string Description { get; private set; } = string.Empty;
 
+        public DateTime CreatedAt { get; set; }
+
         private ProductCategory()
         {
             
@@ -21,6 +23,7 @@ namespace Domain.Entities
             Uid = Guid.NewGuid();
             Name = name;
             Description = description;
+            CreatedAt = DateTime.Now;
 
             Validate();
         }

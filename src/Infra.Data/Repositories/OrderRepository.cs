@@ -1,149 +1,42 @@
-﻿using Dapper;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Microsoft.Data.SqlClient;
-using Newtonsoft.Json;
+using Infra.Data.Interfaces;
+using MongoDB.Driver;
 
 namespace Infra.Data.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        private readonly string _connectionString;
+        private readonly IMongoCollection<Order> _orderCollection;
 
-        public OrderRepository(string connectionString)
+        public OrderRepository(IMongoDbService mongoService)
         {
-            _connectionString = connectionString;
+            _orderCollection = mongoService.Database.GetCollection<Order>("Orders");
         }
 
         public async Task AddAsync(Order order)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    insert into Orders (Uid, Customer, Items, Status, Value, CreatedAt) 
-                    values (@Uid, @Customer, @Items, @Status, @Value, GETDATE())";
-
-                var param = new
-                {
-                    order.Uid,
-                    Customer = (order.Customer is null) ? null : JsonConvert.SerializeObject(order.Customer),
-                    Items = (order.Items.Any()) ? JsonConvert.SerializeObject(order.Items) : null,
-                    order.Value,
-                    order.Status
-                };
-
-                await connection.ExecuteAsync(query, param);
-            }
+            await _orderCollection.InsertOneAsync(order);
         }
 
         public async Task DeleteAsync(Guid uid)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    delete from Orders where Uid = @uid";
-
-                var param = new { uid };
-
-                await connection.ExecuteAsync(query, param);
-            }
+            await _orderCollection.DeleteOneAsync(x => x.Uid == uid);
         }
 
         public async Task<IEnumerable<Order>?> GetAllAsync()
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    select 
-                        o.Id
-                        ,o.Uid
-                        ,o.Status
-                        ,o.Value
-                    from Orders o with(nolock) 
-                    order by 1 desc;";
-
-                return await connection.QueryAsync<Order>(query);
-            }
+            return await _orderCollection.Find(x => true).ToListAsync();
         }
 
         public async Task<Order?> GetByUidAsync(Guid uid)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    select 
-                        o.Id
-                        ,o.Uid
-                        ,o.Status
-                        ,o.Value
-                        ,o.CreatedAt
-                        ,o.UpdatedAt
-                    from Orders o with(nolock) 
-                    where Uid = @uid;";
-
-                var param = new { uid };
-
-                return await connection.QueryFirstOrDefaultAsync<Order>(query, param);
-            }
-        }
-
-        public async Task<string?> GetCustomerSerializedAsync(Guid uid)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    select 
-                        o.Customer
-                    from Orders o with(nolock) 
-                    where Uid = @uid;";
-
-                var param = new { uid };
-
-                return await connection.QueryFirstOrDefaultAsync<string>(query, param);
-            }
-        }
-
-        public async Task<string> GetItemsSerializedAsync(Guid uid)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    select 
-                        o.Items
-                    from Orders o with(nolock) 
-                    where Uid = @uid;";
-
-                var param = new { uid };
-
-                return await connection.QueryFirstAsync<string>(query, param);
-            }
+            return await _orderCollection.Find(x => x.Uid == uid).FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync(Order order)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    update Orders
-                        set Customer = @Customer
-                        ,Items = @Items
-                        ,Status = @Status
-                        ,Value = @Value
-                        ,UpdatedAt = GETDATE()
-                    where Uid = @Uid"
-                ;
-
-                var param = new
-                {
-                    order.Uid,
-                    Customer = (order.Customer is null) ? null : JsonConvert.SerializeObject(order.Customer),
-                    Items = (order.Items.Any()) ? JsonConvert.SerializeObject(order.Items) : null,
-                    order.Value,
-                    order.Status
-                };
-
-                await connection.ExecuteAsync(query, param);
-            }
+            await _orderCollection.ReplaceOneAsync(x => x.Uid == order.Uid, order);
         }
     }
 }

@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddCommandHandler(typeof(ICommandHandler<,>));
 builder.Services.AddQueryHandler(typeof(IQueryHandler<,>));
+builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddRepositories(builder.Configuration);
 
@@ -28,7 +29,7 @@ builder.Services.AddSwaggerGen(options =>
     options.DescribeAllParametersInCamelCase();
     options.SchemaFilter<EnumSchemaFilter>();
     var layers = new List<string>() { "Application", "Domain" };
-    
+
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 

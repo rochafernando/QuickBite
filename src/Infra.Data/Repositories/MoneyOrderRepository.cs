@@ -1,111 +1,47 @@
-﻿using Dapper;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Microsoft.Data.SqlClient;
+using Infra.Data.Interfaces;
+using MongoDB.Driver;
 
 namespace Infra.Data.Repositories
 {
     public class MoneyOrderRepository : IMoneyOrderRepository
     {
-        private readonly string _connectionString;
+        private readonly IMongoCollection<MoneyOrder> _moneyOrderCollection;
 
-        public MoneyOrderRepository(string connectionString)
+        public MoneyOrderRepository(IMongoDbService mongoService)
         {
-            _connectionString = connectionString;
+            _moneyOrderCollection = mongoService.Database.GetCollection<MoneyOrder>(nameof(MoneyOrder));
         }
 
         public async Task AddAsync(MoneyOrder moneyOrder)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    insert into MoneyOrder (Uid, OrderUid, TxId, QRCode, Status, Value, CreatedAt) 
-                    values (@Uid, @OrderUid, @TxId, @QRCode, @Status, @Value, GETDATE())";
-
-                var param = new
-                {
-                    moneyOrder.Uid,
-                    moneyOrder.OrderUid,
-                    moneyOrder.TxId,
-                    moneyOrder.QRCode,
-                    moneyOrder.Value,
-                    moneyOrder.Status
-                };
-
-                await connection.ExecuteAsync(query, param);
-            }
+            await _moneyOrderCollection.InsertOneAsync(moneyOrder);
         }
 
-        public Task<IEnumerable<Order>?> GetAllAsync()
+        public async Task<IEnumerable<MoneyOrder>?> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _moneyOrderCollection.Find(x => true).ToListAsync();
         }
 
         public async Task<MoneyOrder?> GetByOrderUidAsync(Guid uid)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    select 
-                        mo.Id
-                        ,mo.Uid
-                        ,mo.OrderUid
-                        ,mo.TxId
-                        ,mo.QRCode
-                        ,mo.Status
-                        ,mo.Value
-                        ,mo.CreatedAt
-                        ,mo.UpdatedAt
-                    from MoneyOrder mo with(nolock) 
-                    where OrderUid = @uid;";
-
-                var param = new { uid };
-
-                return await connection.QueryFirstOrDefaultAsync<MoneyOrder>(query, param);
-            }
+            return await _moneyOrderCollection.Find(x => x.OrderUid == uid).FirstOrDefaultAsync();
         }
 
         public async Task<MoneyOrder?> GetByUidAsync(Guid uid)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    select 
-                        mo.Id
-                        ,mo.Uid
-                        ,mo.OrderUid
-                        ,mo.TxId
-                        ,mo.QRCode
-                        ,mo.Status
-                        ,mo.Value
-                        ,mo.CreatedAt
-                        ,mo.UpdatedAt
-                    from MoneyOrder mo with(nolock) 
-                    where Uid = @uid;";
-
-                var param = new { uid };
-
-                return await connection.QueryFirstOrDefaultAsync<MoneyOrder>(query, param);
-            }
+            return await _moneyOrderCollection.Find(x => x.Uid == uid).FirstOrDefaultAsync();
         }
 
         public async Task DeleteByOrderUidAsync(Guid uid)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"
-                    delete from MoneyOrder 
-                    where OrderUid = @uid;";
-
-                var param = new { uid };
-
-                await connection.ExecuteAsync(query, param);
-            }
+            await _moneyOrderCollection.DeleteOneAsync(x => x.Uid == uid);
         }
 
-        public Task UpdateAsync(MoneyOrder moneyOrder)
+        public async Task UpdateAsync(MoneyOrder moneyOrder)
         {
-            throw new NotImplementedException();
+            await _moneyOrderCollection.ReplaceOneAsync(x => x.Uid == moneyOrder.Uid, moneyOrder);
         }
     }
 }
