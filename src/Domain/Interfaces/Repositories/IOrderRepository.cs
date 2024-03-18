@@ -9,8 +9,5 @@ namespace Domain.Interfaces.Repositories
         Task DeleteAsync(Guid uid);
         Task<Order?> GetByUidAsync(Guid uid);
         Task<IEnumerable<Order>?> GetAllAsync();
-        Task<string> GetItemsSerializedAsync(Guid uid);
-        Task<string?> GetCustomerSerializedAsync(Guid uid);
-
     }
 }
