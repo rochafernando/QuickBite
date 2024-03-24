@@ -18,7 +18,7 @@ builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddRepositories(builder.Configuration);
 
-
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddMvc(options => options.Filters.Add<NotificationsFilter>());
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -57,6 +57,7 @@ builder.Services.AddApiVersioning(opt =>
     setup.GroupNameFormat = "'v'VVV";
     setup.SubstituteApiVersionInUrl = true;
 });
+
 
 
 var app = builder.Build();

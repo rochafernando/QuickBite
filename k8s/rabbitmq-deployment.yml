@@ -1,0 +1,148 @@
+# NAMESPACE
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: servicebus
+  labels:
+    name: servicebus
+---
+# CONFIGMAP
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-cm
+  namespace: servicebus
+data:
+  RABBITMQ_DEFAULT_USER: admin
+  RABBITMQ_DEFAULT_VHOST: /
+  RABBITMQ_ERLANG_COOKIE: DSHEVCXBBETJJVJWTOWT
+---
+# SECRET
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rabbitmq-sc
+  namespace: servicebus
+type: Opaque
+stringData:
+  RABBITMQ_DEFAULT_PASS: rabbitmqhmlk8s!
+---
+# PERSIST VOLUME
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: rabbitmq-pv
+  namespace: servicebus
+  labels:
+    type: local
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/rabbitmq"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rabbitmq-pvc
+  namespace: servicebus
+spec:
+  storageClassName: local-storage
+  volumeName: rabbitmq-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+--- 
+# DEPLOYMENT
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq-dp
+  namespace: servicebus
+spec:
+  serviceName: rabbitmq
+  replicas: 1
+  selector:
+     matchLabels:
+       app: rabbitmq
+  template:
+    metadata:
+      name: rabbitmq
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3.8-management
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 500m
+            limits:
+              memory: 1024Mi
+              cpu: 1000m
+          ports:
+            - containerPort: 5672
+            - containerPort: 15672
+          envFrom:
+            - configMapRef:
+                name: rabbitmq-cm
+            - secretRef:
+                name: rabbitmq-sc
+          volumeMounts:
+            - name: rabbitmqdata
+              mountPath: /var/lib/rabbitmq
+      volumes:
+        - name: rabbitmqdata
+          persistentVolumeClaim:
+            claimName: rabbitmq-pvc
+---
+# SERVICES
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-svc-cip
+  namespace: servicebus
+spec:
+  selector:
+    app: rabbitmq
+  ports:
+    - protocol: TCP 
+      port: 5672
+      name: amqp
+    - protocol: TCP 
+      port: 15672
+      name: management
+  type: ClusterIP
+---
+# INGRESS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rabbitmq-ingress
+  namespace: servicebus
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-homolog"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - quickbite.rabbitmq.com.br
+    secretName: letsencrypt-quickbite-cert
+  ingressClassName: nginx
+  rules:
+    - host: quickbite.rabbitmq.com.br
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rabbitmq-svc-cip
+                port:
+                  name: management

@@ -7,13 +7,13 @@ namespace Application.Commands.Product
         /// <summary>
         /// Nome da categoria
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "Nome é obrigatório.")]
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Descrição da categoria
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "Descrição é obrigatório.")]
         public string Description { get; set; } = string.Empty;
     }
 }

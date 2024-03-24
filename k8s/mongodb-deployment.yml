@@ -1,10 +1,18 @@
-# mongodb://admin:mongodbk8sHml@localhost:8090
+# mongodb://admin:mongodbk8sHml@localhost
+# NAMESPACE
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: database
+  labels:
+    name: database
+---
 # CONFIG MAP
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mongodb-cm
-  namespace: staging
+  namespace: database
 data:
   MONGO_INITDB_ROOT_USERNAME: admin
 ---
@@ -13,7 +21,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: mongodb-sc
-  namespace: staging
+  namespace: database
 type: Opaque
 stringData:
   MONGO_INITDB_ROOT_PASSWORD: mongodbk8sHml
@@ -23,7 +31,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mongodb-pv
-  namespace: staging
+  namespace: database
   labels:
     type: local
 spec:
@@ -39,7 +47,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongodb-pvc
-  namespace: staging
+  namespace: database
 spec:
   storageClassName: local-storage
   volumeName: mongodb-pv
@@ -54,7 +62,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongodb
-  namespace: staging
+  namespace: database
 spec:
   serviceName: mongodb
   replicas: 1
@@ -77,6 +85,7 @@ spec:
             memory: 512Mi
             cpu: 500m
           limits:
+            ephemeral-storage: "2Gi"
             memory: 1024Mi
             cpu: 1000m
         ports:
@@ -89,6 +98,7 @@ spec:
         volumeMounts:
         - name: mongodbdata
           mountPath: /data/db
+      automountServiceAccountToken: false
       volumes:
       - name: mongodbdata
         persistentVolumeClaim:
@@ -98,8 +108,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-mongodb-np
-  namespace: staging
+  name: mongodb-svc-np
+  namespace: database
 spec:
   type: NodePort
   selector:
@@ -108,19 +118,20 @@ spec:
   - protocol: TCP 
     port: 27017
     targetPort: 27017
-    nodePort: 30003
+    nodePort: 30002
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-mongodb-cip
-  namespace: staging
+  name: mongodb-svc-cip
+  namespace: database
 spec:
   type: ClusterIP
   selector:
     app: mongodb
   ports:
-  - protocol: TCP
+  - protocol: TCP 
     port: 27017
     targetPort: 27017
-
+    name: mongo
+---
