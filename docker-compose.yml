@@ -5,26 +5,61 @@ networks:
     driver: 
       bridge
 
-services:
-  sqldata:
-    container_name: db
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    environment:
-      - SA_PASSWORD=Pass@word
-      - ACCEPT_EULA=Y
-    ports:
-      - "1433:1433"
-    networks:
-      - quickbite-network
+volumes:
+  mongo_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
 
-  quickbite:
-    container_name: app
-    image: rickalbbraga/quickbite:latest
+services:
+  # sqldata:
+  #   container_name: db
+  #   image: mcr.microsoft.com/mssql/server:2019-latest
+  #   environment:
+  #     - SA_PASSWORD=Pass@word
+  #     - ACCEPT_EULA=Y
+  #   ports:
+  #     - "1433:1433"
+  #   networks:
+  #     - quickbite-network
+  
+  mongo:
+    container_name: mongo
+    image: mongo
     environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=mongodbk8sHml
     ports:
-      - "80:80"
+      - "27017:27017"
     networks:
       - quickbite-network
-    depends_on:
-      - sqldata
+    volumes:
+      - mongo_data:/data/db
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.8-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_ERLANG_COOKIE=DSHEVCXBBETJJVJWTOWT
+      - RABBITMQ_DEFAULT_PASS=rabbitmqhmlk8s!
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - quickbite-network
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  # quickbite:
+  #   container_name: app
+  #   image: rickalbbraga/quickbite:latest
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Staging
+  #   ports:
+  #     - "80:80"
+  #   networks:
+  #     - quickbite-network
+  #   depends_on:
+  #     - sqldata

@@ -14,7 +14,7 @@ namespace API.Configurations.Swagger
         {
             _provider = provider;
         }
-
+        
         public void Configure(string name, SwaggerGenOptions options)
         {
             foreach (var description in _provider.ApiVersionDescriptions)

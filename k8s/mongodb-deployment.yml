@@ -35,6 +35,7 @@ metadata:
   labels:
     type: local
 spec:
+  persistentVolumeReclaimPolicy: Delete 
   storageClassName: local-storage
   capacity:
     storage: 2Gi

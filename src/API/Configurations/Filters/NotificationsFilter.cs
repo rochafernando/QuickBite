@@ -32,6 +32,22 @@ namespace API.Configurations.Filters
 
         public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
+            if (!context.ModelState.IsValid)
+            {
+                var errors = context.ModelState
+                                    .SelectMany(ms => ms.Value!.Errors, (ms, e) => new ErrorResponse 
+                                    { 
+                                        Code = 40000, 
+                                        Title = ms.Key, 
+                                        Detail = e.ErrorMessage 
+                                    }).ToList();
+
+                context.HttpContext.Response.StatusCode = BadRequestStatusCode;
+                context.HttpContext.Response.ContentType = ContentType;
+                await context.HttpContext.Response.WriteAsync(JsonSerializer.Serialize(errors));
+                return; 
+            }
+
             if (_notificationContext.HasNotifications)
             {
                 context.HttpContext.Response.StatusCode = BadRequestStatusCode;
