@@ -11,6 +11,7 @@ namespace Infra.CrossCutting.IoC
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             var mongoDbConfiguration = configuration.GetSection("Mongo").Get<MongoDbConfiguration>();
+            Console.WriteLine($"ConnectionString: {System.Text.Json.JsonSerializer.Serialize(mongoDbConfiguration)}");
             services.AddSingleton(mongoDbConfiguration!);
             services.AddSingleton<IMongoDbService, MongoDbService>();
             return services;

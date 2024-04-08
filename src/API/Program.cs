@@ -18,7 +18,7 @@ builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddRepositories(builder.Configuration);
 
-
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddMvc(options => options.Filters.Add<NotificationsFilter>());
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -47,9 +47,6 @@ builder.Services.AddApiVersioning(opt =>
     opt.DefaultApiVersion = new ApiVersion(1, 0);
     opt.AssumeDefaultVersionWhenUnspecified = true;
     opt.ReportApiVersions = true;
-    opt.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(),
-                                                    new HeaderApiVersionReader("x-api-version"),
-                                                    new MediaTypeApiVersionReader("x-api-version"));
 })
 .AddMvc()
 .AddApiExplorer(setup =>
@@ -57,7 +54,6 @@ builder.Services.AddApiVersioning(opt =>
     setup.GroupNameFormat = "'v'VVV";
     setup.SubstituteApiVersionInUrl = true;
 });
-
 
 var app = builder.Build();
 
