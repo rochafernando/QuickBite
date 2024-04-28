@@ -78,3 +78,8 @@
 !unquoted procedure Package($name, $label = "", $color = "", $scale = "", $note = "")
     Object("PackagePrepare", "$ma_package_variant_closed", $name, $label, $color, $scale, $note)
 !endprocedure
+
+!include <material/television_guide>
+!unquoted procedure ServiceKiosk($name, $label = "", $color = "", $scale = "", $note = "")
+     Actor("ServiceKiosk", "$ma_television_guide", $name, $label, $color, $scale, $note)
+!endprocedure
