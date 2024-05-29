@@ -10,6 +10,8 @@ volumes:
     driver: local
   rabbitmq_data:
     driver: local
+  cassandra_data:
+    driver: local
 
 services:
   # sqldata:
@@ -23,34 +25,59 @@ services:
   #   networks:
   #     - quickbite-network
   
-  mongo:
-    container_name: mongo
-    image: mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=mongodbk8sHml
-    ports:
-      - "27017:27017"
-    networks:
-      - quickbite-network
-    volumes:
-      - mongo_data:/data/db
+  # mongo:
+  #   container_name: mongo
+  #   image: mongo
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=admin
+  #     - MONGO_INITDB_ROOT_PASSWORD=mongodbk8sHml
+  #   ports:
+  #     - "27017:27017"
+  #   networks:
+  #     - quickbite-network
+  #   volumes:
+  #     - mongo_data:/data/db
 
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3.8-management
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_VHOST=/
-      - RABBITMQ_ERLANG_COOKIE=DSHEVCXBBETJJVJWTOWT
-      - RABBITMQ_DEFAULT_PASS=rabbitmqhmlk8s!
+  # cassandra:
+  #   image: cassandra:latest
+  #   container_name: cassandra
+  #   ports:
+  #     - "9042:9042"
+  #   # environment:
+  #   #   - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3
+  #   networks:
+  #     - quickbite-network
+  #   volumes:
+  #     - cassandra_data:/var/lib/cassandra
+
+  # $(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cassandra)
+  cassandra-web:
+    image: delermando/docker-cassandra-web:v0.4.0
+    container_name: cassandra-web
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "3000:3000"
+    environment:
+      - CASSANDRA_HOST_IP=172.19.0.2 
+      - CASSANDRA_PORT=9042
+    command: sh -c 'echo docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cassandra'
     networks:
       - quickbite-network
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
+
+  # rabbitmq:
+  #   container_name: rabbitmq
+  #   image: rabbitmq:3.8-management
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=admin
+  #     - RABBITMQ_DEFAULT_VHOST=/
+  #     - RABBITMQ_ERLANG_COOKIE=DSHEVCXBBETJJVJWTOWT
+  #     - RABBITMQ_DEFAULT_PASS=rabbitmqhmlk8s!
+  #   ports:
+  #     - "5672:5672"
+  #     - "15672:15672"
+  #   networks:
+  #     - quickbite-network
+  #   volumes:
+  #     - rabbitmq_data:/var/lib/rabbitmq
 
   # quickbite:
   #   container_name: app
